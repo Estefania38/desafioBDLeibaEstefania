@@ -1,0 +1,33 @@
+<h1>Listas de productos</h1>
+
+  <article id="list-products">
+<article class="container">
+     <ul>
+    {{#each products}}
+      <div class="card">
+        <div class="imgBx">
+          <img src="{{this.thumbnail}}" width="90px" />
+        </div>
+        <div class="contentBx">
+          <h2>{{this.title}}</h2>
+          <div class="size">
+            <h3>{{this.description}}</h3>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span>10</span>
+          </div>
+          <div class="color">
+            <h3>Color :</h3>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <a href="#">Buy Now</a>
+        </div>
+      </div>
+      
+{{/each}} 
+</ul>   
+    </article>
+  </article> 

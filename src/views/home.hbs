@@ -1,0 +1,37 @@
+<h2>Mira las ofertas especiales del mes de la niñez!</h2>
+
+<imput id="chatbox" type="text" placeholder="ingrese el mensaje"/> 
+
+<div id="messagelogs"></div>
+
+{{#each listadeproductos}}
+<article class="container">
+      <div class="card">
+        <div class="imgBx">
+          <img src="{{thumbnail}}" width="90px" />
+        </div>
+        <div class="contentBx">
+          <h2>{{title}}</h2>
+          <div class="size">
+            <h3>{{description}}</h3>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span>10</span>
+          </div>
+          <div class="color">
+            <h3>Color :</h3>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <a href="#">Buy Now</a>
+        </div>
+      </div>
+      
+    </article>
+{{/each}}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
