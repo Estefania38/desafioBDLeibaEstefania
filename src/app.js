@@ -10,6 +10,7 @@ import { productsRouter } from "./routes/products.routes.js";//
 import { usersRouter } from "./routes/users.routes.js";
 
 
+
 //inicializando el servidor
 const app = express();//
 const port = config.server.port;//
@@ -32,12 +33,8 @@ app.set('view engine', '.hbs');//
 app.set('views', path.join(__dirname+"/views"));//
 
 // mis rutas a las vistas
-app.use("/", viewsRouter);//
+app.use(viewsRouter);//
 //app.use("/api/cart", cartsRouter);
 app.use("/api/products", productsRouter);//
 app.use("/api/users", usersRouter);//
-
-
-
-
 

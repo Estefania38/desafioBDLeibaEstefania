@@ -1,13 +1,10 @@
 import { Router } from "express";
-import { CartsMongo } from "../dao/managers/mongo/cartsMongo.js";
-import { ProductsMongo } from "../dao/managers/mongo/productsMongo.js";
+import { cartService, productService } from "../dao/index.js";
 import { __dirname } from "../utils.js";
 
 
 const router = Router();
 
-const cartService = new CartsMongo("carts.json");
-const productService = new ProductsMongo("products.json");
 
 // ENDPOINT Auxiliar para corroborar todos los carritos 
 router.get("/",async(req,res)=>{

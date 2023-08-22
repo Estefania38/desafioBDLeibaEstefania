@@ -72,8 +72,23 @@ export class ProductsMongo {
             throw new Error("Hubo un error al eliminar el producto");
         }
     };
-
+    
 }
+   //paginate parametros:
+   //query o filtros:  podemos filtrar la info de la consulta {} no se aplica filtro
+   // limit: El numero max de doc a filtrar
+   //page:1 indica que pagina quiero ejecutar
+    const operations = async () =>{
+        const products = await productsModel.paginate(
+            // {title:{$gt:"cafetera electica"}}, // con este filtro por ejemplo por titulo
+            {}, // con este {} vacio llamo a todos los documentos
+            {limit:5, page:2} // aca le doy el limite de productos a mostrar por pagina, e indico que pagina quiero ver
+        );
+        console.log(products);     
+    }
+    operations()
+   
+
 
 
 
