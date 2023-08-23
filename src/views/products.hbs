@@ -15,20 +15,19 @@
           <h2>{{this.title}}</h2>
           <div class="size">
             <h3>{{this.description}}</h3>
-            <span>7</span>
-            <span>8</span>
-            <span>9</span>
-            <span>10</span>
+            <h3>Precio: {{this.price}}</h3>
+            <h4>Categoria: {{this.category}}</h4>
+            <span>Codigo: {{this.code}}</span>
+            <span>Stock: {{this.stock}}</span>
           </div>
           <div class="color">
             <h3>Color :</h3>
             <span></span>
-            <span></span>
-            <span></span>
+            <span></span>            
           </div>
-          <a href="#">Buy Now</a>
         </div>
-      </div>      
+      </div>   
+      <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>   
      {{/each}}
      </ul>  
     </article>
@@ -43,4 +42,11 @@
 {{else}}
      <h2>No hay productos</h2>
 {{/if}}
+
+<script>
+    const addToCart = (productId)=>{
+        console.log(`producto recibido ${productId}`);
+    } 
+
+</script>
 

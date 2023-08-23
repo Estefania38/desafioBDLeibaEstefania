@@ -3,10 +3,13 @@ import {config} from "./config/config.js";//
 import { __dirname } from "./utils.js";//
 import path from "path";//
 import {engine} from "express-handlebars";//
+import session from "express-session";
+import MongoStore from "connect-mongo";
 // importando mis rutas
 import { viewsRouter } from "./routes/views.routes.js";//
 import { productsRouter } from "./routes/products.routes.js";//
 import { usersRouter } from "./routes/users.routes.js";
+import { sessionsRouter } from "./routes/sessions.routes.js";
 
 
 
@@ -16,6 +19,18 @@ const port = config.server.port;//
 
 //guardar el servidor http en una variable
 app.listen(port,()=>console.log(`server listening on port ${port}`));//
+
+
+//configuracion de las sessiones en el servidor
+app.use(session({
+    store: new MongoStore({
+        ttl:60,
+        mongoUrl: "mongodb+srv://esleiba:Mongo3880@cluster0.ttyqoju.mongodb.net/loginLeiba?retryWrites=true&w=majority"
+    }),
+    secret: config.server.secretSession, //cifra el id de la sesion dentro de la cookie
+    resave:true,
+    saveUninitialized:true
+}));
 
 
 //midleware para que express entienda lo que envio por body  
@@ -34,4 +49,7 @@ app.use(viewsRouter);//
 //app.use("/api/cart", cartsRouter);
 app.use("/api/products", productsRouter);//
 app.use("/api/users", usersRouter);//
+app.use("/api/sessions", sessionsRouter);
+
+
 

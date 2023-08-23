@@ -1,6 +1,7 @@
 import { Router } from "express";//
 import { __dirname } from "../utils.js";
 import {productService } from "../dao/index.js";
+import { checkUserAuthenticated, showLoginView } from "../middlewares/auth.js";
 
 const router = Router();//
 
@@ -11,7 +12,7 @@ const router = Router();//
            
         });
 
-           //ruta a productos en tiempo real
+        //ruta a productos en tiempo real
            router.get('/realtimeproducts', async (req,res)=>{
             try{
             const listaproductos = await pmanagersocket.getProducts({})
@@ -28,10 +29,20 @@ const router = Router();//
             res.render("chat")
         })
 
-        router.get("/registro", (req,res)=>{
+        router.get("/registro",showLoginView, (req,res)=>{
             res.render("signup");
            
         });
+
+        router.get("/login", showLoginView, (req,res)=>{
+            res.render("login");
+        });
+
+        router.get("/perfil", checkUserAuthenticated, (req,res)=>{
+            console.log(req.session);
+            res.render("profile",{user: req.session.userInfo});
+        });
+        
 
         router.get("/productos",async(req,res)=>{
             try {

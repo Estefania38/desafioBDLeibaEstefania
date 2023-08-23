@@ -40,6 +40,19 @@ async getUserById(userId) {
         throw new Error("Usuario no encontrado");
     }
 };
+// traer el usuario por el email
+async getByEmail(userEmail){
+    try {
+        const user = await this.model.findOne({email:userEmail});
+        if(user){
+            return user;
+        } else{
+            return null;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
 
 // actualizar usuario
 async updateUser(userId, newInfo) {

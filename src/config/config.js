@@ -1,6 +1,7 @@
 export const config={
     server:{
         port:8080,
+        secretSession:"claveSecretaCoder"
     },
     fileSystem:{
         productsFile:"products.json",
