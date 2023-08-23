@@ -2,6 +2,24 @@ import { Router } from "express";
 import { __dirname } from "../utils.js";
 import { productService } from "../dao/index.js";
 
+
+
+const productCodes = new Set();
+const validateFields = (req, res, next) => {
+  const productInfo = req.body;  
+  if (!productInfo.title || !productInfo.price || !productInfo.description || !productInfo.code || !productInfo.category) {
+    return res.json({ status: "error", message: "Campos incompletos" });
+  }   
+  // Verifico si el código del producto ya existe en el registro
+  if (productCodes.has(productInfo.code)) {
+    return res.json({ status: "error", message: "El código del producto ya existe" });
+  }
+  // Si no existe, agrego el código al registro
+  productCodes.add(productInfo.code);
+  next();
+};
+
+
 const router = Router();
 
 // Ruta raíz GET /
@@ -36,7 +54,7 @@ router.get("/:pid", async (req, res) => {
 });
 
 // Ruta POST / corregido ok
-router.post("/", async (req, res) => {
+router.post("/",validateFields, async (req, res) => {
   try {
     const productInfo = req.body;
     const productCreated = await productService.saveProduct(productInfo);
@@ -47,7 +65,7 @@ router.post("/", async (req, res) => {
 });
 
 // Ruta PUT /:pid corregido ok
-router.put("/:pid", async (req, res) => {
+router.put("/:pid",validateFields, async (req, res) => {
   try {
     const productId = req.params.pid;
     const updatedFields = req.body;

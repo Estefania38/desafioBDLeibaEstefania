@@ -1,6 +1,5 @@
 import express from "express";//
 import {config} from "./config/config.js";//
-import { connectDB } from "./config/dbConnection.js";//
 import { __dirname } from "./utils.js";//
 import path from "path";//
 import {engine} from "express-handlebars";//
@@ -17,8 +16,6 @@ const port = config.server.port;//
 
 //guardar el servidor http en una variable
 app.listen(port,()=>console.log(`server listening on port ${port}`));//
-//conectando a la base de datos
-connectDB ();//
 
 
 //midleware para que express entienda lo que envio por body  

@@ -19,9 +19,8 @@ export class CartsMongo {
 
   async save() {
     try {
-      const newCart = new Cart({ products: [] });
-      await newCart.save();
-      return newCart;
+      const cartCreated = await this.model.create({});
+      return cartCreated;
     } catch (error) {
       throw error;
     }

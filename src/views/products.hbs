@@ -1,10 +1,13 @@
-<h1>Listas de productos</h1>
 
-  <article id="list-products">
-<article class="container">
+<p><strong>{{error}}</strong></p>
+
+{{#if payload}}
+     <h1>Listas de productos</h1>
+    <article id="list-products">
+     <article class="container">
      <ul>
-    {{#each products}}
-      <div class="card">
+     {{#each payload}}
+     <div class="card">
         <div class="imgBx">
           <img src="{{this.thumbnail}}" width="90px" />
         </div>
@@ -25,9 +28,19 @@
           </div>
           <a href="#">Buy Now</a>
         </div>
-      </div>
-      
-{{/each}} 
-</ul>   
+      </div>      
+     {{/each}}
+     </ul>  
     </article>
-  </article> 
+  </article>  
+     {{#if hasPrevPage}}
+     <a href={{prevLink}}>Anterior</a>
+     {{/if}}
+     {{page}}
+     {{#if hasNextPage}}
+     <a href={{nextLink}}>Siguienter</a>
+     {{/if}}
+{{else}}
+     <h2>No hay productos</h2>
+{{/if}}
+
