@@ -4,6 +4,7 @@ import { __dirname } from "./utils.js";//
 import path from "path";//
 import {engine} from "express-handlebars";//
 import session from "express-session";
+import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 // importando mis rutas
 import { viewsRouter } from "./routes/views.routes.js";//
@@ -20,11 +21,14 @@ const port = config.server.port;//
 //guardar el servidor http en una variable
 app.listen(port,()=>console.log(`server listening on port ${port}`));//
 
+//conectar session con filestorage
+const fileStorage = FileStore(session);
 
 //configuracion de las sessiones en el servidor
 app.use(session({
     store: new MongoStore({
         ttl:60,
+        retries:0,
         mongoUrl: "mongodb+srv://esleiba:Mongo3880@cluster0.ttyqoju.mongodb.net/loginLeiba?retryWrites=true&w=majority"
     }),
     secret: config.server.secretSession, //cifra el id de la sesion dentro de la cookie

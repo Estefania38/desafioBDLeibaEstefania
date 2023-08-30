@@ -86,6 +86,9 @@ const router = Router();//
                 res.render("products",{error:"No es posible visualizar los productos"});
             }
         });
+        router.get("/cambiar-password", (req, res) => {
+            res.render("changePassword");
+        })
    
       
 export {router as viewsRouter};

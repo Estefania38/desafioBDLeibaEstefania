@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { usersService } from "../dao/index.js"
+import {createHash, isValidPassword} from "../utils.js";
+
 
 const router = Router();
 
@@ -11,7 +13,14 @@ router.post("/signup", async(req,res)=>{
         if(user){
             return res.render("signup",{error:"el usuario ya esta registrado"});
         }
-        const result = await usersService.save(signupForm);
+        const newUser = {
+            first_name: signupForm.first_name,
+            last_name: signupForm.last_name,
+            email: signupForm.email,
+            age: signupForm.age,
+            password: createHash(signupForm.password)
+        }
+        const result = await usersService.createUser(newUser);
         res.render("login",{message:"usuario registrado"});
     } catch (error) {
         res.render("signup",{error:error.message});
@@ -27,7 +36,7 @@ router.post("/login", async(req,res)=>{
             return res.render("login",{error:"El usuario no se ha registrado"});
         }
         //si el usuario existe, validar la contraseña
-        if(user.password === loginForm.password){
+        if(isValidPassword(user, loginForm.password)){
             //si la contraseña es valida, creamos la session
             req.session.userInfo = {
                 first_name:user.first_name,
