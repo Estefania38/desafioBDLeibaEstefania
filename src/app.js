@@ -6,6 +6,8 @@ import {engine} from "express-handlebars";//
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import { initializePassport } from "./config/passportConfig.js";
 // importando mis rutas
 import { viewsRouter } from "./routes/views.routes.js";//
 import { productsRouter } from "./routes/products.routes.js";//
@@ -35,6 +37,11 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }));
+
+// configuracion de passport (siempre se configura despues de la configuracion de sessiones)
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //midleware para que express entienda lo que envio por body  

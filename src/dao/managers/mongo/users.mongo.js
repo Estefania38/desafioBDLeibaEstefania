@@ -55,9 +55,9 @@ async getByEmail(userEmail){
 };
 
 // actualizar usuario
-async updateUser(userId, newInfo) {
+async updateUser(userId, newUserInfo) {
     try {
-        const userUpdated = await this.model.findByIdAndUpdate(userId, newData,{new: true}); // Devolverá el documento modificado después de la actualización
+        const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new: true}); // Devolverá el documento modificado después de la actualización
         if (userUpdated) {
             console.log("Usuario actualizado con éxito. El usuario actualizado es:", userUpdated);
             return userUpdated;
