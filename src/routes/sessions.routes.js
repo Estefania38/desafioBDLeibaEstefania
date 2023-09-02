@@ -41,6 +41,16 @@ router.post("/changePass", async (req, res) => {
     }
 });
 
+router.get("/loginGithub", passport.authenticate("githubLoginStrategy"));
+
+router.get("/github-callback", passport.authenticate("githubLoginStrategy",{
+    failureRedirect:"/api/sessions/fail-signup",
+}), (req, res) => {
+    res.redirect("/perfil");
+});
+
+
+
 router.get("/logout", (req, res) => {
     req.logOut(error => {
         if (error) {
