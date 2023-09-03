@@ -4,6 +4,7 @@ import { createHash, isValidPassword } from "../utils.js";
 import { usersService } from "../dao/index.js";
 import githubStrategy from "passport-github2";
 import { config } from "./config.js";
+import {generateToken} from "../utils.js"
 
 
 
@@ -48,6 +49,8 @@ export const initializePassport = () => {
                 }
                 //si el usuario existe, validar la contraseña
                 if (isValidPassword(user, password)) {
+                    const accessToken = generateToken({email:user.email, role:user.role});
+                    user.token = accessToken;
                     return done(null, user);
                 } else {
                     return done(null, false);
@@ -73,10 +76,14 @@ export const initializePassport = () => {
                         email: profile.username,
                         password: createHash(profile.id)
                     };
-                    const userCreated = await usersService.save(newUser);
+                    const userCreated = await usersService.createUser(newUser);
+                    const accessToken = generateToken({email:user.email, role:user.role});
+                    newUser.token = accessToken;
                     return done(null,userCreated)//En este punto passport completa el proceso de manera
                 } else {
-                    return done(null,user)
+                    const accessToken = generateToken({email:user.email, role:user.role});
+                    user.token = accessToken;
+                    return done(null,user);
                 }  
             } catch (error) {
                 return done(error);

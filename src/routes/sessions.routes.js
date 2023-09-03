@@ -49,8 +49,6 @@ router.get("/github-callback", passport.authenticate("githubLoginStrategy",{
     res.redirect("/perfil");
 });
 
-
-
 router.get("/logout", (req, res) => {
     req.logOut(error => {
         if (error) {
