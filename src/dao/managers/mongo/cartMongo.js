@@ -26,9 +26,9 @@ export class CartsMongo {
     }
   }
 
-  async getCartById(cartId) {
+  async getCartById(cid) {
     try {
-      const cart = await cart.findById(cartId);
+      const cart = await cart.findById(cid);
       return cart;
     } catch (error) {
       throw error;
@@ -50,10 +50,10 @@ export class CartsMongo {
     }
   };
 
-  addProductInCart = async (cartId, obj) => {
+  addProductInCart = async (cid, obj) => {
     try {
-      const filter = { _id: cartId, "products._id": obj._id };
-      const cart = await cart.findById(cartId);
+      const filter = { _id: cid, "products._id": obj._id };
+      const cart = await cart.findById(cid);
       const findProduct = cart.products.some((product) => product._id.toString() === obj._id);
 
       if (findProduct) {
@@ -61,10 +61,10 @@ export class CartsMongo {
         await cart.updateOne(filter, update);
       } else {
         const update = { $push: { products: { _id: obj._id, quantity: obj.quantity } } };
-        await cart.updateOne({ _id: cartId }, update);
+        await cart.updateOne({ _id: cid }, update);
       }
 
-      return await cart.findById(cartId);
+      return await cart.findById(cid);
     } catch (err) {
       console.error('Error al agregar el producto al carrito:', err.message);
       return err;

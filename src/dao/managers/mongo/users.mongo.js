@@ -30,7 +30,7 @@ async getUsers() {
 // traer usuario por id  
 async getUserById(userId) {
     try {
-        const user = await this.model.findById(userId).populate('userProd');
+        const user = await this.model.findById(userId).lean().populate('userProd');
         if(!user){
             throw new Error("Usuario no registrado")
         }

@@ -52,8 +52,8 @@ export class CartManager {
     return uuidv4();
   }
 
-  addCart(cartId, productId) {
-    const cart = this.getCartById(cartId);
+  addCart(cid, productId) {
+    const cart = this.getCartById(cid);
 
     if (cart) {
       const existingProduct = cart.products.find(p => p.product === productId);

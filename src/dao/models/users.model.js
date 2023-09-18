@@ -1,35 +1,40 @@
 import mongoose from "mongoose";
-import { usersCollection, productsCollection} from "../../constants/index.js";
-
+import { usersCollection, productsCollection } from "../../constants/index.js";
 
 const userSchema = new mongoose.Schema({
-
-    first_name:{
+    first_name: {
         type: 'string',
     },
-    last_name:{
+    last_name: {
         type: 'string',
     },
-    email:{
+    email: {
         type: 'string',
         required: true,
         unique: true
     },
-    age:{
-        type: 'number',
-    },
-    password:{
+    password: {
         type: 'string',
         required: true
     },
-    userProd:{
-        type:[
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "carts"
+    },
+    role: {
+        type: "string",
+        required: true,
+        enum: ["user", "admin"],
+        default: "user"
+    },
+    userProd: {
+        type: [
             {
-                type:mongoose.Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: productsCollection
             }
         ],
-        default:[]
+        default: []
     }
 })
 

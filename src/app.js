@@ -13,6 +13,7 @@ import { viewsRouter } from "./routes/views.routes.js";//
 import { productsRouter } from "./routes/products.routes.js";//
 import { usersRouter } from "./routes/users.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
+// import cors from "cors";
 
 
 
@@ -31,7 +32,7 @@ app.use(session({
     store: new MongoStore({
         ttl:60,
         retries:0,
-        mongoUrl: "mongodb+srv://esleiba:Mongo3880@cluster0.ttyqoju.mongodb.net/loginLeiba?retryWrites=true&w=majority"
+        mongoUrl: config.mongo.url,
     }),
     secret: config.server.secretSession, //cifra el id de la sesion dentro de la cookie
     resave:true,
@@ -57,7 +58,7 @@ app.set('views', path.join(__dirname+"/views"));//
 
 // mis rutas a las vistas
 app.use(viewsRouter);//
-//app.use("/api/cart", cartsRouter);
+// app.use("/api/cart", cartsRouter);
 app.use("/api/products", productsRouter);//
 app.use("/api/users", usersRouter);//
 app.use("/api/sessions", sessionsRouter);
