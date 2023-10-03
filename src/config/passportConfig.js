@@ -14,24 +14,30 @@ export const initializePassport = () => {
         },
         async (req, username, password, done) => {
             try {
-                const { first_name} = req.body;
+                const { first_name, last_name} = req.body;
                 const user = await UsersService.getUserByEmail(username);
-                if (user) {
+                if (user){
                     return done(null, false)
+                }
+                let role = "user";
+                if(username.endsWith("@coder.com")){
+                    role="admin";
                 }
                 const newUser = {
                     first_name:first_name,
+                    last_name:last_name,
                     email:username,                    
-                    password: createHash(password)
+                    password: createHash(password),
+                    role:role
                 }
                 const userCreated = await UsersService.createUser(newUser);
                 return done(null, userCreated)
             } catch (error) {
-                return done(error);
-               
+                return done(error);               
             }
         }
     ));
+
 
     passport.use("loginStrategy", new LocalStrategy(
         {

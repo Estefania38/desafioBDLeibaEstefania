@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { __dirname } from "../utils.js";
 import { ProductsController } from "../controllers/products.controllers.js"; 
+import {checkRole, checkAuthenticated} from "../middlewares/auth.js"
 
 
 const productCodes = new Set();
@@ -27,12 +28,12 @@ router.get("/", ProductsController.getProducts);
 router.get("/:pid", ProductsController.getProductById);
 
 // Ruta POST / corregido ok
-router.post("/",validateFields, ProductsController.createdProduct);
+router.post("/", checkAuthenticated, checkRole(["admin"]),validateFields, ProductsController.createdProduct);
 
 // Ruta PUT /:pid corregido ok
-router.put("/:pid",validateFields,ProductsController.updateProduct);
+router.put("/:pid", checkAuthenticated, checkRole(["admin"]),validateFields, ProductsController.updateProduct);
 
 // Ruta DELETE /:pid
-router.delete("/:pid", ProductsController.deleteProduct);
+router.delete("/:pid", checkAuthenticated, checkRole(["admin"]), ProductsController.deleteProduct);
 
 export { router as productsRouter };

@@ -3,27 +3,28 @@ import { usersCollection, productsCollection } from "../../constants/index.js";
 
 const userSchema = new mongoose.Schema({
     first_name: {
-        type: 'string',
+        type:String,
+        required:true,
     },
     last_name: {
-        type: 'string',
+        type:String,
     },
     email: {
-        type: 'string',
-        required: true,
-        unique: true
+        type:String,
+        required:true,
+        unique:true
     },
     password: {
-        type: 'string',
-        required: true
+        type:String,
+        required:true
     },
     cart: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "carts"
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"carts"
     },
     role: {
-        type: "string",
-        required: true,
+        type:String,
+        required:true,
         enum: ["user", "admin"],
         default: "user"
     },

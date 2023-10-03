@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { __dirname } from "../utils.js";
 import { CartsController } from "../controllers/carts.controllers.js";
+import {TicketsController} from "../controllers/tickets.controllers.js";
 
 
 const router = Router();
@@ -15,6 +16,10 @@ router.put('/:cid', CartsController.updateListCart);
 // ENDPOINT para eliminar un producto de un carrito
 router.delete('/:cid/product/:pid', CartsController.deleteProductInCart);
 // ENDPOINT que elimina todos los productos de un carrito
-   router.delete('/:cid', CartsController.deleteCart);
+router.delete('/:cid', CartsController.deleteCart);
+
+//ruta para el ticket
+router.post("/:cid/purchase", TicketsController.createTicket );
+
 
 export { router as cartsRouter };
