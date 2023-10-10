@@ -1,11 +1,9 @@
 import { usersDao  } from "../dao/index.js";
-import { usersModel} from "../dao/models/users.model.js";
-
 
 export class UsersControllers {
     static  getUsers = async (req, res) => {
         try{
-            const users = await usersModel.find();
+            const users = await usersDao.getUsers();
             res.json({status:"success", data:users});
     
         }catch(error){
@@ -55,4 +53,16 @@ export class UsersControllers {
             res.json({status:"error", message:"hubo un error al actualizar los usuarios"})
         }
     }
+    static getUserByEmail = async (req, res) => {
+        try {
+            const user = await usersDao.getByEmail({email:userEmail});
+            if(user){
+                return user;
+            } else{
+                return null;
+            }
+    }catch (error) {
+        res.json({status:"error", message:"hubo un error al obtener el email"})
+    }
+}
 }
