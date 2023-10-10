@@ -4,34 +4,40 @@ import { cartsModel } from "../../models/carts.model.js";
 export class CartsMongo {
 
   constructor() {
-    this.cart = cartsModel;
+    this.model = cartsModel;
   };
 
   async getCarts() {
     try {
-      const carts = await cart.find().lean();
+      const carts = await this.model.find().lean();
       return carts;
     } catch (error) {
-      throw error;
-      
+      throw new Error("Hubo un error al obtener los carritos 1");
     }
   };
 
-  async save() {
+  async save(cart) {
     try {
-      const cartCreated = await this.model.create({});
+      const cartCreated = await this.model.create(cart);
+      if (!cart) {
+        throw new Error("Hubo un error al obtener el carrito");
+      }
       return cartCreated;
     } catch (error) {
-      throw error;
+      throw new Error("Hubo un error al obtener el carrito");
     }
   }
 
+
   async getCartById(cid) {
     try {
-      const cart = await cart.findById(cid);
+      const cart = await this.model.findById(cid);
+      if(!cart){
+        throw new Error("Hubo un error al obtener el carrito");
+    }
       return cart;
     } catch (error) {
-      throw error;
+      throw new Error("Hubo un error al obtener el carrito");
     }
   }
 
@@ -42,7 +48,7 @@ export class CartsMongo {
         cartData.products = products;
       }
 
-      const cart = await cart.create(cartData);
+      const cart = await this.model.create(cartData);
       return cart;
     } catch (err) {
       console.error('Error al crear el carrito:', err.message);
@@ -53,18 +59,18 @@ export class CartsMongo {
   addProductInCart = async (cid, obj) => {
     try {
       const filter = { _id: cid, "products._id": obj._id };
-      const cart = await cart.findById(cid);
+      const cart = await this.model.findById(cid);
       const findProduct = cart.products.some((product) => product._id.toString() === obj._id);
 
       if (findProduct) {
         const update = { $inc: { "products.$.quantity": obj.quantity } };
-        await cart.updateOne(filter, update);
+        await this.model.updateOne(filter, update);
       } else {
         const update = { $push: { products: { _id: obj._id, quantity: obj.quantity } } };
-        await cart.updateOne({ _id: cid }, update);
+        await this.model.updateOne({ _id: cid }, update);
       }
 
-      return await cart.findById(cid);
+      return await this.model.findById(cid);
     } catch (err) {
       console.error('Error al agregar el producto al carrito:', err.message);
       return err;
@@ -73,7 +79,7 @@ export class CartsMongo {
 
   deleteProductInCart = async (cid, products) => {
     try {
-      return await cart.findOneAndUpdate(
+      return await this.model.findOneAndUpdate(
         { _id: cid },
         { products },
         { new: true })
@@ -83,11 +89,22 @@ export class CartsMongo {
     }
 
   }
+
+  async update(cid,cart){
+    try {
+        const cartUpdated = await this.model.findByIdAndUpdate(cid, cart, {new:true});
+        return cartUpdated;
+    }
+    catch (error) {
+        console.error(error.message);
+    }
+}
+
   updateOneProduct = async (cid, products) => {
 
-    await cart.updateOne(
+    await this.model.updateOne(
       { _id: cid },
       { products })
-    return await cart.findOne({ _id: cid })
+    return await this.model.findOne({ _id: cid })
   };
 };

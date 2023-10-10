@@ -3,14 +3,22 @@ import { ProductsService } from "../services/products.service.js";
 
 export class CartsController {
 
-    static getCarts = async (req, res) => {
-        const carrito = await CartsService.getCarts()
-        res.json({ carrito })
+
+    static getCarts = async(req, res)=>{
+        try {
+            const carts = await CartsService.getCarts();
+            res.json({status:"success", data:carts});
+        } catch (error) {
+            console.log(error.menssage)
+            res.json({status:"error", message:"hubo un error al listar los carritos"})
+        }
     }
+
     static saveCarts = async (req, res) => {
         try {
-            const newCart = await CartsService.save();
-            res.json({ status: "success", message: "Carrito creado", data: newCart });
+            const newCart = {};
+            const cartCreated = await CartsService.saveCarts(newCart);
+            res.json({ status: "success", message: "Carrito creado", data: cartCreated });
         } catch (error) {
             res.status(500).json({ status: "error", message: error.message });
         }
@@ -25,15 +33,25 @@ export class CartsController {
         }
     }
     static addProductToCart = async (req, res) => {
+        try{      
         const cid = req.params.cid;
         const productId = req.params.pid;
-        try {
-            await CartsService.addCart(cid, productId);
-            res.json({ status: "success", message: "Producto agregado al carrito" });
+        const cart = await CartsService.getCartById(cid);
+        const products = await ProductsService.getProductById(productId);
+        const productExist = cart.products.find(products=>products._id === productId);
+        console.log("productExist",productExist);
+        const newProduct = {
+            _id:productId,
+            quantity:1
+        }
+        cart.products.push(newProduct);
+        const cartUpdated = await CartsService.updateCart(cid, productId);
+            res.json({ status: "success", message: "Producto agregado al carrito", data:cartUpdated });
         } catch (error) {
             res.status(404).json({ status: "error", message: error.message });
         }
     }
+
     // ENDPOINT que actualiza la lista de productos en el carrito  
     static updateListCart = async (req, res) => {
         try {
@@ -52,7 +70,7 @@ export class CartsController {
                 return res.status(404).send({ status: 'error', message: `The ID cart: ${cid} not found` });
             }
             // Actualizar el carrito en la base de datos con la lista de productos actualizada
-            const cart = await CartsService.updateProductsInCart(cid, products);
+            const cart = await CartsService.updateListCart(cid, products);
             return res.status(200).send({ status: 'success', payload: cart });
         } catch (error) {
             console.log(error);

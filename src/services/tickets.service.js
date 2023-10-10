@@ -1,4 +1,4 @@
-import {ticketsDao} from "../dao/managers/index.js";
+import { ticketsDao } from "../dao/index.js";
 
 export class TicketsService {
     static async createTicket(ticketInfo){
