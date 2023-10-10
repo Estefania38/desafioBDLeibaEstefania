@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UsersControllers } from "../controllers/users.controllers.js";
 
 
+
 const router = Router ();
 
 router.get("/", UsersControllers.getUsers );
