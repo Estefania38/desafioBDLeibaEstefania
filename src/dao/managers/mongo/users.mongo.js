@@ -7,7 +7,7 @@ import { usersModel } from "../../models/users.model.js";
     };
 
 // crear usuario
-async createUser(user){
+async save(user){
     try{
         const userCreated = await this.model.create(user);
         return userCreated;

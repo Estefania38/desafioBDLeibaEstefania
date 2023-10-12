@@ -13,7 +13,7 @@ router.get("/fail-signup", SessionsControllers.failSignup);
 
 router.post("/login", passport.authenticate("loginStrategy",{
     failureRedirect:"/api/sessions/fail-login"
-}), SessionsControllers.redirectProfile);
+}), SessionsControllers.renderProfile);
 
 router.get("/fail-login", SessionsControllers.failLogin);
 
@@ -23,7 +23,7 @@ router.get("/loginGithub", passport.authenticate("githubLoginStrategy"));
 
 router.get("/github-callback", passport.authenticate("githubLoginStrategy",{
     failureRedirect:"/api/sessions/fail-signup",
-}), SessionsControllers.redirectProfile);
+}), SessionsControllers.renderProfile);
 
 router.get("/logout", SessionsControllers.logout);
 

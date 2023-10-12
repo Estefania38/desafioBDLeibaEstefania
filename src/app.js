@@ -61,7 +61,7 @@ app.set('views', path.join(__dirname+"/views"));//
 // mis rutas a las vistas
 app.use(viewsRouter);//
 // app.use("/api/cart", cartsRouter);
-app.use("/api/products", compression({brotli:{enabled:true, zlip:{}}}), productsRouter);//
+app.use("/api/products",  productsRouter); //compression({brotli:{enabled:true, zlip:{}}})//, productsRouter);
 app.use("/api/users", usersRouter);//
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);

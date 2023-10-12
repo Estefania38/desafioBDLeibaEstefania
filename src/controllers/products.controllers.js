@@ -31,8 +31,8 @@ export class ProductsController{
     }
     static createdProduct = async (req, res) => {
         try {
-          const productInfo = req.body;
-          const productCreated = await ProductsService.saveProduct(productInfo);
+          const product = req.body;
+          const productCreated = await ProductsService.createdProduct(product);
           return res.json({ status: "success", message: "Producto creado", data:productCreated });
         } catch (error) {
           return res.status(500).send(error.message);

@@ -19,7 +19,8 @@ export const checkRole = (roles)=>{
         if(roles.includes(req.user.role)){
             next();
         } else {
-            res.json({status:"error", message:"No tienes permisos para usar este recurso"});
+           res.render("/perfil", { message: "Su usuario no cuenta con permiso para esta Pagina" });
+            // res.redirect("/perfil");
         }
     }
 };

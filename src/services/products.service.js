@@ -7,8 +7,8 @@ export class ProductsService {
     static getProductById = async (productId) => {
         return await productDao.getProductById(productId);
     }
-    static createdProduct = async (productInfo) => {
-        return await productDao.saveProduct(productInfo);
+    static createdProduct = async (product) => {
+        return await productDao.saveProduct(product);
     }
     static updateProduct = async (productId, updatedFields) => {
         return await productDao.updateProduct(productId, updatedFields);

@@ -1,5 +1,5 @@
-import { usersDao  } from "../dao/index.js";
 import { createHash } from "../utils.js";
+import { UsersControllers } from "./users.controllers.js";
 
 export class SessionsControllers {
 
@@ -10,7 +10,7 @@ export class SessionsControllers {
         res.send("<p>No se pudo registrar al usuario, <a href='/registro'>intenta de nuevo</a></p>");
         // res.render("signup", { error: "Error al registrar el usuario" });
     }
-    static redirectProfile = (req,res)=>{
+    static renderProfile = (req,res)=>{
         const user = req.user;
         console.log("user", user);
         res.render("profile",{user});
@@ -23,12 +23,12 @@ export class SessionsControllers {
     static changePassword = async (req, res) => {
         try {
             const form = req.body;
-            const user = await usersDao.getByEmail(form.email);
+            const user = await UsersControllers.getUserByEmail(form.email);
             if (!user) {
                 return res.render("changePassword", { error: "No es posible cambiar la contraseña" });
             }
             user.password = createHash(form.newPassword);
-            await usersDao.updateUser(user._id, user);
+            await UsersControllers.updateUser(user._id, user);
             return res.render("login", { message: "Contraseña restaurada" });
         } catch (error) {
             res.render("changePassword", { error: error.message });

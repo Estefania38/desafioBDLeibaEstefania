@@ -1,9 +1,10 @@
-import { usersDao  } from "../dao/index.js";
+import { UsersService } from "../services/users.service.js";
 
 export class UsersControllers {
+
     static  getUsers = async (req, res) => {
         try{
-            const users = await usersDao.getUsers();
+            const users = await UsersService.getUsers();
             res.json({status:"success", data:users});
     
         }catch(error){
@@ -14,7 +15,7 @@ export class UsersControllers {
     static getUsersById = async (req, res) => {
         try{
             const userId= req.params.uid;
-            const user = await usersDao.getUserById(userId);
+            const user = await UsersService.getUserById(userId);
             res.json({status:"success", data:user});    
         }catch(error){
             console.log(error.message);
@@ -33,7 +34,7 @@ export class UsersControllers {
                     errorCode: EError.INVALID_JSON
                 });
             }
-            const userCreated = await usersDao.createUser(userInfo);
+            const userCreated = await UsersService.createUser(userInfo);
             res.json({status:"success", data:userCreated, message:"usuario creado con exito"});
         }catch(error){
             console.log(error.message);
@@ -43,10 +44,10 @@ export class UsersControllers {
     static updateUser = async (req, res) => {
         try{
             const {uid,pid} = req.params;
-            const user= await usersDao.getUserById(uid);
+            const user= await UsersService.getUserById(uid);
             user.userProd.push(pid);
     
-            const result = await usersDao.updateUser(uid,user);
+            const result = await UsersService.updateUser(uid,user);
             res.json({status:"success", data:result, message:"usuario actualizado con exito"});
         }catch(error){
             console.log(error.message);
@@ -55,7 +56,7 @@ export class UsersControllers {
     }
     static getUserByEmail = async (req, res) => {
         try {
-            const user = await usersDao.getByEmail({email:userEmail});
+            const user = await UsersService.getUserByEmail({email:userEmail});
             if(user){
                 return user;
             } else{

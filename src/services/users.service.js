@@ -5,9 +5,15 @@ export class UsersService {
     return await usersDao.getByEmail(email);
    };
    static createUser = async (newUser) =>{
-    return await usersDao.createUser(newUser);
+    return await usersDao.save(newUser);
    };
    static getUserById = async (userId) =>{
     return  await usersDao.getUserById(userId);
+   };
+   static getUsers = async ()=>{
+      return await usersDao.getUsers();
+   };
+   static  updateUser = async (userId, newUserInfo) =>{
+      return await usersDao.updateUser(userId, newUserInfo);
    };
 };
