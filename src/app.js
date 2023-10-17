@@ -22,11 +22,12 @@ import {addLogger } from "./helpers/logger.js"
 
 //inicializando el servidor
 const app = express();//
-const port = config.server.port;//
 const logger = addLogger();
+const port = config.server.port;//
+
 
 //guardar el servidor http en una variable
-app.listen(port,()=>console.log(`server listening on port ${port}`));//
+app.listen(port,()=>logger.info(`server listening on port ${port}`));//
 
 //conectar session con filestorage
 const fileStorage = FileStore(session);
