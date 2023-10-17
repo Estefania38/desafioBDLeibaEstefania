@@ -23,6 +23,7 @@ import {addLogger } from "./helpers/logger.js"
 //inicializando el servidor
 const app = express();//
 const port = config.server.port;//
+const logger = addLogger();
 
 //guardar el servidor http en una variable
 app.listen(port,()=>console.log(`server listening on port ${port}`));//
@@ -67,8 +68,6 @@ app.use("/api/users", usersRouter);//
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);
 
-
-const logger = addLogger();
 
 app.get("/", (req, res)=>{
     logger.fatal("mensaje de nivel fatal");
