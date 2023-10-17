@@ -16,6 +16,7 @@ import { usersRouter } from "./routes/users.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 // import cors from "cors";
+import {addLogger } from "./helpers/logger.js"
 
 
 
@@ -67,4 +68,15 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);
 
 
+const logger = addLogger();
+
+app.get("/", (req, res)=>{
+    logger.fatal("mensaje de nivel fatal");
+    logger.error("mensaje de nivel error");
+    logger.warning("mensaje de nivel warning");
+    logger.info("mensaje de nivel info");
+    logger.http("mensaje de nivel http");
+    logger.debug("mensaje de nivel debug");
+    res.send("peticion recibida");
+});
 
