@@ -37,8 +37,8 @@ export class CartsController {
         const cid = req.params.cid;
         const productId = req.params.pid;
         const cart = await CartsService.getCartById(cid);
-        const products = await ProductsService.getProductById(productId);
-        const productExist = cart.products.find(products=>products._id === productId);
+        const product = await ProductsService.getProductById(productId);
+        const productExist = cart.products.find(product=>product._id === productId);
         console.log("productExist",productExist);
         const newProduct = {
             _id:productId,
