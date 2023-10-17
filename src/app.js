@@ -70,13 +70,14 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);
 
 
-app.get("/", (req, res)=>{
-    logger.fatal("mensaje de nivel fatal");
-    logger.error("mensaje de nivel error");
-    logger.warning("mensaje de nivel warning");
-    logger.info("mensaje de nivel info");
-    logger.http("mensaje de nivel http");
-    logger.debug("mensaje de nivel debug");
-    res.send("peticion recibida");
+app.get('/loggerTest', (req, res) => {
+    logger.debug("Esto es un mensaje de depuración.");
+    logger.http("Esto es un mensaje HTTP.");
+    logger.info("Esto es un mensaje de información.");
+    logger.warning("Esto es un mensaje de advertencia.");
+    logger.error("Esto es un mensaje de error.");
+    logger.fatal("Esto es un mensaje fatal.");
+
+    res.send('Registros realizados.');
 });
 

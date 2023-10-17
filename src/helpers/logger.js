@@ -4,6 +4,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const currentEnv = process.env.LOGGER;
+
+// Define los niveles de prioridad
+const logLevels = {
+    debug: 0,
+    http: 1,
+    info: 2,
+    warning: 3,
+    error: 4,
+    fatal: 5,
+};
+
 //crear el transporte : sistema de almacenamiento
 
 const devLogger = winston.createLogger({
