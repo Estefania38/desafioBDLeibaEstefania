@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import { usersCollection, productsCollection } from "../../constants/index.js";
 
 const userSchema = new mongoose.Schema({
-    first_name: {
+    name: {
         type:String,
         required:true,
     },
-    last_name:String,
+    lastname:String,
     email: {
         type:String,
         required:true,
@@ -17,8 +17,13 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     cart: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"carts"
+        type:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"carts"
+        }
+    ],       
+        default: []
     },
     role: {
         type:String,
@@ -33,8 +38,8 @@ const userSchema = new mongoose.Schema({
                 ref: productsCollection
             }
         ],
-        default: []
+      
     }
-})
+});
 
 export const usersModel = mongoose.model(usersCollection, userSchema);

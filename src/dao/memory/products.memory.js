@@ -3,11 +3,13 @@ export class ProductsMemory{
         this.products = [];
     };
 
-    get(){
+    getProducts(){
         try {
             return this.products;
         } catch (error) {
-            throw error;
+            throw new Error("Hubo un error al obtener los productos");
         }
     };
+
+
 }

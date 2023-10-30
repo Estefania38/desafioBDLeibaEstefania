@@ -12,7 +12,7 @@ async save(user){
         const userCreated = await this.model.create(user);
         return userCreated;
     }catch(error){
-        throw error;
+        throw new Error("Hubo un error al crear el usuario");
    }
 };
 

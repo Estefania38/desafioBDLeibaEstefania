@@ -14,7 +14,7 @@ export const initializePassport = () => {
         },
         async (req, username, password, done) => {
             try {
-                const { first_name, last_name} = req.body;
+                const { name, lastname} = req.body;
                 const user = await UsersService.getUserByEmail(username);
                 if (user){
                     return done(null, false)
@@ -24,8 +24,8 @@ export const initializePassport = () => {
                     role="admin";
                 }
                 const newUser = {
-                    first_name:first_name,
-                    last_name:last_name,
+                    name:name,
+                    lastname:lastname,
                     email:username,                    
                     password: createHash(password),
                     role:role
@@ -33,7 +33,7 @@ export const initializePassport = () => {
                 const userCreated = await UsersService.createUser(newUser);
                 return done(null, userCreated)
             } catch (error) {
-                return done(error);               
+                return done(error, false);               
             }
         }
     ));

@@ -5,7 +5,8 @@ import { SessionsControllers } from "../controllers/sessions.controllers.js";
 
 const router = Router();
 
-router.post("/signup", passport.authenticate("signupStrategy", {
+router.post("/signup", passport.authenticate("signupStrategy",
+ {
     failureRedirect: "/api/sessions/fail-signup"
 }), SessionsControllers.redirectLogin);
 

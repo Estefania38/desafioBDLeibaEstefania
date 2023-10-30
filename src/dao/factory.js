@@ -9,6 +9,7 @@ let productDao;
 let cartDao;
 let usersDao;
 let ticketsDao;
+let businessDao;
 
 switch (persistence) {
     case "mongo":
@@ -21,11 +22,13 @@ switch (persistence) {
         const {UsersMongo } = await import("./managers/mongo/users.mongo.js");
         const {CartsMongo } = await import("./managers/mongo/cartMongo.js");
         const {TicketsMongo } = await import("./managers/mongo/ticketsMongo.js");
+        const {BusinessMongo } = await import ("./managers/mongo/businessMongo.js");
         contactsDao = new ContactsMongo();
         productDao = new ProductsMongo();
         usersDao  = new UsersMongo();
         cartDao = new CartsMongo();
         ticketsDao = new TicketsMongo();
+        businessDao = new BusinessMongo();
         break;
 
      case "memory":
@@ -41,4 +44,4 @@ switch (persistence) {
         break;
 }
 
-export {contactsDao, productDao, cartDao, usersDao, ticketsDao};
+export {contactsDao, productDao, cartDao, usersDao, ticketsDao, businessDao};
