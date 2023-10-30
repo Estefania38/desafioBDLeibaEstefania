@@ -1,4 +1,4 @@
-import { productDao } from "../dao/index.js";
+import { productDao } from "../dao/factory.js";
 
 export class ViewsController {
     static renderHome = (req, res) => {
