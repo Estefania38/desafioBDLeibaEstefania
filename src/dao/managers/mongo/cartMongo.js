@@ -16,7 +16,7 @@ export class CartsMongo {
     }
   };
 
-  async save(cart) {
+  async createCarts(cart) {
     try {
       const cartCreated = await this.model.create(cart);
       if (!cart) {

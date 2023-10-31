@@ -1,8 +1,8 @@
 import { CartsService } from "../services/carts.service.js";
 import { ProductsService } from "../services/products.service.js";
-
+import { BusinessService } from "../services/business.service.js";
+import { UsersService } from "../services/users.service.js";
 export class CartsController {
-
 
     static getCarts = async(req, res)=>{
         try {
@@ -14,15 +14,67 @@ export class CartsController {
         }
     }
 
-    static saveCarts = async (req, res) => {
+    // static saveCarts = async (req, res) => {
+    //     try {
+    //         const newCart = {};
+    //         const cartCreated = await CartsService.saveCarts(newCart);
+    //         res.json({ status: "success", message: "Carrito creado", data: cartCreated });
+    //     } catch (error) {
+    //         res.status(500).json({ status: "error", message: error.message });
+    //     }
+    // }
+
+    //////////////////////////////////////////////////////
+
+
+    static createCarts = async(req,res)=>{
         try {
-            const newCart = {};
-            const cartCreated = await CartsService.saveCarts(newCart);
-            res.json({ status: "success", message: "Carrito creado", data: cartCreated });
+            const {cartNumber, userId, businessId, products } = req.body;
+            const user = await UsersService.getUserById(userId);
+            const business = await BusinessService.getBusinessById(businessId);
+            //obtenemos los productos del negocio con su id y precio.
+            const productsCart = business.products.filter(product=>products.includes(product.id));
+            //calculamos el total del pedido
+            const total = productsCart.reduce((acc,i)=>acc = acc+i.price, 0 );
+            //creamos la orden
+            const newCart = {
+                cartNumber: cartNumber,
+                business: businessId,
+                user:userId,
+                products:productsCart.map(p=>p.id),
+                totalPrice:total,
+                status: "pendiente"
+            }
+            //creamos la orden en la base de datos
+            const cartCreated = await CartsService.createCarts(newCart);
+            //actualizamos el usuario con la orden
+            // user.cart.push(cartCreated._id);
+            // const userUpdate = await UsersService.updateUser(userId, user);
+             res.send({status:"success", result: cartCreated});
         } catch (error) {
-            res.status(500).json({ status: "error", message: error.message });
+            console.log(error);
+            res.status(400).json({status:"error", message:error.message});
         }
-    }
+    };
+
+    static resolveOrderCart = async(req,res)=>{
+        try {
+            const cartId = req.params.cid;
+            const cart = await CartsService.getCartById (cartId);
+            cart.status="completada";
+            await CartsService.resolveCart (cid,cart);
+            res.send({status:"success", result:"orden de carrito completada"});
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({status: "error", message:error.message});
+        }
+    };
+
+
+
+
+
+    //////////////////////////////////////////////////
     static getCartById = async (req, res) => {
         const cid = req.params.cid;
         const cart = await CartsService.getCartById(cid);

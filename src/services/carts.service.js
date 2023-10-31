@@ -4,9 +4,12 @@ export class CartsService{
     static getCarts = async ()=>{
         return  await cartDao.getCarts()
     }
-    static saveCarts = async (cartInfo)=>{
-        return  await cartDao.save(cartInfo);
+    static createCarts = async (cart)=>{
+        return  await cartDao.createCarts(cart);
     }
+    static resolveCart = async(cid,cart)=>{
+        return await cartDao.update(cid,cart);
+    };
     static getCartById = async (cid)=>{
         return await cartDao.getCartById(cid);
     }

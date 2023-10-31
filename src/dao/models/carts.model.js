@@ -3,7 +3,11 @@ import { cartsCollection } from "../../constants/index.js";
 
 const cartsSchema = new mongoose.Schema({
   // aca definimos las propiedades y caracteristicas para el documento de un schema
-  id: mongoose.Types.ObjectId, // Campo para el ID de Mongoose
+  // Campo para el ID de Mongoose
+  cartNumber:{
+    type: mongoose.Types.ObjectId,
+    required:true
+},
 
   business: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,13 +29,13 @@ const cartsSchema = new mongoose.Schema({
           default: 1
         },
       },
-    ],
-    price: {
-      type: Number,
-      required: true
-    },
-    default: [],
+    ],   
   },
+  totalPrice: {
+    type: Number,
+    required: true
+  },
+  default: [],
   status: {
     type: String,
     default: 'pendiente'

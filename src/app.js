@@ -1,5 +1,6 @@
 import express from "express";//
 import {config} from "./config/config.js";//
+import {transporter, adminEmail} from "./config/email.js"
 import { __dirname } from "./utils.js";//
 import path from "path";//
 import {engine} from "express-handlebars";//
@@ -85,3 +86,69 @@ app.get('/loggerTest', (req, res) => {
     res.send('Registros realizados.');
 });
 
+
+//Crear el contenido del correo o cuerpo del mensaje
+const emailTemplate = `
+    <div>
+        <h1>Bienvenido!!</h1>
+        <img src="https://media.lmcipolletti.com/p/11585ad17c1c88d4f1f5e666f9dabe9e/adjuntos/195/imagenes/007/449/0007449131/electro-fansjpg.jpg" style="width:550px"/>
+        <p>Ya puedes empezar a usar nuestros servicios</p>
+        <a href="https://www.google.com/">Explorar</a>
+    </div>
+`;
+
+//Agregar la estructura del correo
+
+const userEmail = "estefanialeiba@hotmail.com";
+//Endpoint para enviar el correo
+app.post("/send-emailElectro", async(req,res)=>{
+    try {
+        const info = await transporter.sendMail({
+            from:"Tienda online Electronica",
+            to:userEmail, //correo del destinatario puede ser cualquiera.
+            subject:"Correo para restablecer contraseña",
+            html:emailTemplate
+        });
+        console.log(info);
+        res.json({status:"success", message:`Correo enviado a ${userEmail} exitosamente`});
+    } catch (error) {
+        console.log(error.message);
+        res.json({status:"error", message:"El correo no se pudo enviar"});
+    }
+});
+
+
+//correo con imagenes
+const emailTemplateImages = `
+    <div>
+        <h1>Bienvenido!!</h1>
+        <img src="https://media.lmcipolletti.com/p/11585ad17c1c88d4f1f5e666f9dabe9e/adjuntos/195/imagenes/007/449/0007449131/electro-fansjpg.jpg" style="width:550px"/>
+        <p>Ya puedes empezar a usar nuestros servicios</p>
+        <a href="https://www.google.com/">Explorar</a>
+        <h2>Accede a los mejores productos para tu hogar</h2>
+        <img src="cid:lineaBlanca" style="width:550px"/>
+    </div>
+`;
+
+app.post("/send-emailImages", async(req,res)=>{
+    try {
+        const info = await transporter.sendMail({
+            from:"Tienda online Electronica",
+            to:userEmail, //correo del destinatario puede ser cualquiera.
+            subject:"Correo para restablecer contraseña",
+            html:emailTemplateImages,
+            attachments:[
+                {
+                    filename:"lineablanca.jpg",
+                    path:path.join(__dirname,"/images/lineablanca.jpg"),
+                    cid:"lineaBlanca"
+                }
+            ]
+        });
+        console.log(info);
+        res.json({status:"success", message:`Correo enviado a ${userEmail} exitosamente`});
+    } catch (error) {
+        console.log(error.message);
+        res.json({status:"error", message:"El correo no se pudo enviar"});
+    }
+});
