@@ -1,15 +1,13 @@
 import nodemailer from "nodemailer";
-
-const adminEmail= process.env.ADMIN_EMAIL;
-const adminPass = process.env.ADMIN_PASS;
+import { config } from "./config.js";
 
 //creamos el transporte para enviar los correos con gmail
-const transporter = nodemailer.createTransport({
+const gmailTransporter = nodemailer.createTransport({
     host:"smtp.gmail.com",
     port:587,
     auth:{
-        user:adminEmail,
-        pass:adminPass
+        user:config.gmail.account,
+        pass:config.gmail.password,
     },
     secure:false,
     tls:{
@@ -17,4 +15,4 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export {transporter, adminEmail};
+export {gmailTransporter};

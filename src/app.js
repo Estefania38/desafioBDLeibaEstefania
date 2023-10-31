@@ -1,6 +1,6 @@
 import express from "express";//
 import {config} from "./config/config.js";//
-import {transporter, adminEmail} from "./config/email.js"
+import {transporter, adminEmail} from "./config/gmail.config.js"
 import { __dirname } from "./utils.js";//
 import path from "path";//
 import {engine} from "express-handlebars";//
