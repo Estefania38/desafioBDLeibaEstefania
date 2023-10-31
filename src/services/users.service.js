@@ -4,8 +4,8 @@ export class UsersService {
    static getUserByEmail = async (email) =>{
     return await usersDao.getByEmail(email);
    };
-   static createUser = async (user) =>{
-    return await usersDao.save(user);
+   static createUser = async (Newuser) =>{
+    return await usersDao.save(Newuser);
    };
    static getUserById = async (userId) =>{
     return  await usersDao.getUserById(userId);

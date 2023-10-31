@@ -10,7 +10,8 @@ const router = Router();
         router.get("/registro",showLoginView, ViewsController.renderSignup);
         router.get("/login", showLoginView, ViewsController.renderLogin);
         router.get("/perfil", checkAuthenticated, ViewsController.renderProfile);
-        router.get("/cambiar-password", ViewsController.renderChangePassword);
+        router.get("/forgot-password", ViewsController.renderForgotPassword);
+        router.get("/reset-password", ViewsController.renderResetPassword);
         // corregir la vita del chat       
         router.get("/chat",  checkAuthenticated, checkRole(["user"]), ViewsController.renderChat);
         router.get("/productos", checkAuthenticated, checkRole(["admin"]), ViewsController.renderProducts);

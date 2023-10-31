@@ -1,13 +1,25 @@
+<div id="contacto">
+     <div class="con2">
 <h1>Formulario de login</h1>
 <p>{{message}}</p>
 <p style="color:red">{{error}}</p>
+</div>
 
-
+  <div class="formulario">  
 
 <form method="post" action="/api/sessions/login">
+<h3>Login</h3>
+  <div class="input-group">
+   <label for="email">Email</label>
     <input type="email" placeholder="correo" name="email"/>
     <br/><br/>
+     <label for="message">Password</label>
     <input type="text" placeholder="contraseña" name="password"/>
     <br/><br/>
-    <button>Loguearse</button>
+    <button  class="btn" type="submit">Loguearse</button>   
+      <a  class="btn"  href="/forgot-password">Olvide mi contraseña</a>
+      </div>
 </form>
+
+    </div>
+</div>

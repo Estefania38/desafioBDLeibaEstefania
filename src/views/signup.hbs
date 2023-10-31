@@ -1,53 +1,39 @@
-<h1>Registro de usuarios</h1>
-
-{{!-- <p>{{error}}</p> --}}
-
-{{!-- con este form no funciona no toma first_ name --}}
-
+<div id="contacto">
+  <div class="con1">
+        <h2>Registro de usuario<h2>        
+        <p>Para registrarte ingresa los datos solicitados</p>              
+        <p>Para contactarnos</p>
+        <p>Puedes hacerlo al:</p>
+        <p>0810-810-9994</p>
+        <p>contacto@tiendaelectro.com.ar</p>  
+    </div>
+<div class="formulario">  
    <form action="/api/sessions/signup" method="post">
+   <h3>Registrate</h3>
+    <div class="input-group">
+       <label for="name">Nombre</label>
    <input id="name" type="text" placeholder="Ingrese su nombre" name="name"/>
    <br/><br/>
+     <label for="phone">Apellido</label>
    <input type="text" placeholder="Ingrese su apellido" name="last_name"/>
    <br/><br/>   
+    <label for="email">Email</label>
    <input type="email" placeholder="Ingrese su correo" name="email"/>
    <br/><br/>
+       <label for="message">Password</label>
    <input type="password" placeholder="Ingrese su contraseña" name="password"/>
    <br/><br/> 
-   <button type="submit">Registrate</button>
-</form>
-<hr>
-<a href="/cambiar-password">Restaurar contraseña</a>
-<hr>
-<a href="/api/sessions/loginGithub">
-   <button>Iniciar sesion con GITHUB </button>
-</a>   
+   <button  class="btn" type="submit">Registrate</button>
 
-
-{{!-- Con este form funciona solo redireccionando a la pagina de fail-singup --}}
-{{!-- <h1>Sign in</h1> --}}
-{{!-- 
-<form action="api/sessions/signup" method="post"> 
-<section>
-        <label for="first_name">Nombre</label>
-        <input id="first_name" name="first_name" type="text" autocomplete="first_name" required >
-    </section>
-    <br><br>
-    <section>
-        <label for="email">Email</label>
-        <input id="email" name="email" type="text" autocomplete="email" required >
-    </section>
-     <br><br>
-    <section>
-        <label for="current-password">Password</label>
-        <input id="current-password" name="password" type="password" autocomplete="current-password" required>
-    </section>
-       <br/><br/> 
-   <button type="submit">Registrate</button>
-</form>
-<hr>
-<a href="/cambiar-password">Restaurar contraseña</a>
-<hr>
-<a href="/api/sessions/loginGithub">
-   <button>Iniciar sesion con GITHUB </button>
+<br><br>
+<a   class="btn" href="/forgot-password">Olvide mi contraseña</a>
+<br><br>
+<a    class="btn" href="/api/sessions/loginGithub">
+   <button class="btn">Iniciar sesion con GITHUB </button>
 </a> 
-</form>   --}}
+ </div> 
+</form> 
+
+</div>
+
+

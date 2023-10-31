@@ -15,9 +15,15 @@ export class ViewsController {
         console.log(req.user);
         res.render("profile", { user: JSON.parse(JSON.stringify(req.user)) });
     }
-    static renderChangePassword = (req, res) => {
-        res.render("changePassword");
+    static renderForgotPassword = (req, res) => {
+        res.render("forgotPassword");
     }
+    static renderResetPassword = (req, res) => {
+        const token = req.query.token;
+        res.render("resetPassword", {token});
+
+}
+
     static renderChat = (req, res) => {
         res.render("chat")
     }
