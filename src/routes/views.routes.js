@@ -13,7 +13,7 @@ const router = Router();
         router.get("/forgot-password", ViewsController.renderForgotPassword);
         router.get("/reset-password", ViewsController.renderResetPassword);
         // corregir la vita del chat       
-        router.get("/chat",  checkAuthenticated, checkRole(["user"]), ViewsController.renderChat);
+        router.get("/chat",  checkAuthenticated, checkRole(["user", "admin"]), ViewsController.renderChat);
         router.get("/productos", checkAuthenticated, checkRole(["admin"]), ViewsController.renderProducts);
        
         //ruta a productos en tiempo real  que no estoy usando

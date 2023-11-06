@@ -1,6 +1,6 @@
 
 <p><strong>{{error}}</strong></p>
-
+<div class="products">
 {{#if payload}}
      <h1>Listas de productos</h1>
     <article id="list-products">
@@ -15,34 +15,32 @@
           <h2>{{this.title}}</h2>
           <div class="size">
             <h3>{{this.description}}</h3>
-            <h3>Precio: {{this.price}}</h3>
-            <h4>Categoria: {{this.category}}</h4>
-            <span>Codigo: {{this.code}}</span>
-            <span>Stock: {{this.stock}}</span>
-          </div>
-          <div class="color">
-            <h3>Color :</h3>
-            <span></span>
-            <span></span>            
+            <br>
+            <h3>Precio: $ {{this.price}}</h3>
+            <br>            
+            <h4>Categoria: {{this.category}}</h4>            
+            <a>Codigo: {{this.code}}</a>
+            <a>Stock: {{this.stock}}</a>
           </div>
         </div>
       </div>   
-      <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>   
+      <button class="botons" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>   
      {{/each}}
      </ul>  
     </article>
+    
   </article>  
      {{#if hasPrevPage}}
      <a href={{prevLink}}>Anterior</a>
      {{/if}}
      {{page}}
      {{#if hasNextPage}}
-     <a href={{nextLink}}>Siguienter</a>
+     <a href={{nextLink}}>Siguiente</a>
      {{/if}}
 {{else}}
      <h2>No hay productos</h2>
 {{/if}}
-
+</div>
 <script>
     const addToCart = (productId)=>{
         console.log(`producto recibido ${productId}`);
