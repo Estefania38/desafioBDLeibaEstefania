@@ -1,0 +1,254 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crear nuevo carrito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      producto:
+                        type: string
+                        format: ObjectId
+                        description: ID del producto actualizado en el carrito
+                      cantidad:
+                        type: number
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                purchase_datetime:
+                  type: string
+                  format: date-time
+                code:
+                  type: string
+              required:
+                - items
+                - purchase_datetime
+                - code
+      responses:
+        '200':
+          description: Operacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /api/carts/{cartId}:
+    get:
+      summary: Obtener el carrito por el ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacion Exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    put:
+      summary: Actulizar el carrito por el ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      producto:
+                        type: string
+                        format: ObjectId
+                        description: ID del producto actualizado en el carrito
+                      cantidad:
+                        type: number
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                purchase_datetime:
+                  type: string
+                  format: date-time
+                code:
+                  type: string
+              required:
+                - items
+                - purchase_datetime
+                - code
+      responses:
+        '200':
+          description: Operacion Exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    delete:
+      summary: Eliminar producto en el carrrito por el ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /api/carts/{cartId}/products/{productId}:
+    delete:
+      summary: Borrar un item del carrito
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: itemId
+          in: path
+          required: true
+          description: ID del item eliminado
+          schema:
+            type: string
+      responses:
+        '200':
+          description:  Operacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    put:
+      summary: Actualizar un item del carrrito por el ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      producto:
+                        type: string
+                        format: ObjectId
+                        description: ID del producto subido al carrito
+                      cantidad:
+                        type: number
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                purchase_datetime:
+                  type: string
+                  format: date-time
+                code:
+                  type: string
+              required:
+                - items
+                - purchase_datetime
+                - code
+      responses:
+        '200':
+          description:  Operacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    post:
+      summary: Subir producto al carrito por el id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      producto:
+                        type: string
+                        format: ObjectId
+                        description: ID del producto subido al carrito
+                      cantidad:
+                        type: number
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                purchase_datetime:
+                  type: string
+                  format: date-time
+                code:
+                  type: string
+              required:
+                - items
+                - purchase_datetime
+                - code
+      responses:
+        '200':
+          description: Operacion exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              quantity:
+                type: number
+        

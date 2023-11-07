@@ -1,0 +1,142 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Productos obtenidos con exito
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Product'
+    post:
+      summary: Ruta para crear un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "200":
+          description: El producto se creó de forma correcta
+          schema:
+            $ref: '#/components/schemas/Product'
+        "500":
+          description: Hubo un error en el servidor
+  /api/products/{productId}:
+    get:
+      summary: Obtener un producto por ID
+      parameters:
+        - name: productId
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Éxito
+          schema:
+            $ref: '#/components/schemas/Product'
+    put:
+      summary: Actualizar un producto por ID
+      parameters:
+        - name: productId
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                atributo_a_modificar_1:
+                  type: string
+                atributo_a_modificar_2:
+                  type: number
+                atributo_a_modificar_3:
+                  type: boolean
+      responses:
+        '200':
+          description: Éxito
+          schema:
+            $ref: '#/components/schemas/Product'
+    delete:
+      summary: Eliminar un producto por ID
+      parameters:
+        - name: productId
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Éxito
+          schema:
+            $ref: '#/components/schemas/Product'
+definitions:
+  CreateProduct:
+    type: object
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+      code:
+        type: string
+      category:
+        type: string
+      stock:
+        type: number
+    example:
+      name: "Batidora de mano"
+      price: 20900
+      code: "Codigo 89"
+      category: "electro"
+      stock: 100
+  CreateProductSuccess:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+        properties:
+          _id:
+            type: string
+          name:
+            type: string
+      message:
+        type: string
+    example:
+      status: "success"
+      data:
+        _id: "ObjectId(jshd81928127638)"
+        name: "Batidora de mano"
+      message: "producto creado"
+  Product:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      code:
+        type: string
+      price:
+        type: number
+      status:
+        type: boolean
+      stock:
+        type: number
+      category:
+        type: string
+      thumbnail:
+        type: string
+      owner:
+        type: string

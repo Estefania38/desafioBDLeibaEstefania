@@ -7,6 +7,8 @@ import {engine} from "express-handlebars";//
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import { swaggerSpecs } from "./config/swagger.config.js";
+import swaggerUI from "swagger-ui-express";
 import passport from "passport";
 import { initializePassport } from "./config/passportConfig.js";
 import compression from "express-compression";
@@ -66,13 +68,14 @@ app.set('views', path.join(__dirname+"/views"));//
 
 // mis rutas a las vistas
 app.use(viewsRouter);//
-// app.use("/api/cart", cartsRouter);
 app.use("/api/products",  productsRouter); //compression({brotli:{enabled:true, zlip:{}}})//, productsRouter);
 app.use("/api/users", usersRouter);//
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api/business", businessRouter);
+// endpoint para acceder a la documentacion de la api
+app.use ("/api/docs", swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
 
 
 app.get('/loggerTest', (req, res) => {
@@ -85,6 +88,7 @@ app.get('/loggerTest', (req, res) => {
 
     res.send('Registros realizados.');
 });
+
 
 
 //Crear el contenido del correo o cuerpo del mensaje
