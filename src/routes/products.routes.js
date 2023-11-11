@@ -28,12 +28,12 @@ router.get("/", ProductsController.getProducts);
 router.get("/:pid", ProductsController.getProductById);
 
 // Ruta POST / corregido ok
-router.post("/", checkAuthenticated, checkRole(["admin"]),validateFields, ProductsController.createdProduct);
+router.post("/", checkAuthenticated, checkRole(["admin", "superadmin", "premium"]),validateFields, ProductsController.createdProduct);
 
 // Ruta PUT /:pid corregido ok
 router.put("/:pid", checkAuthenticated, checkRole(["admin"]),validateFields, ProductsController.updateProduct);
 
 // Ruta DELETE /:pid
-router.delete("/:pid", checkAuthenticated, checkRole(["admin"]), ProductsController.deleteProduct);
+router.delete("/:pid", checkAuthenticated, checkRole(["admin", "premium"]), ProductsController.deleteProduct);
 
 export { router as productsRouter };

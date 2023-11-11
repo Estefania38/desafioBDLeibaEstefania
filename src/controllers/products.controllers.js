@@ -32,6 +32,8 @@ export class ProductsController{
     static createdProduct = async (req, res) => {
         try {
           const product = req.body;
+          console.log(req.user);
+          product.owner = req.user._id;
           const productCreated = await ProductsService.createdProduct(product);
           return res.json({ status: "success", message: "Producto creado", data:productCreated });
         } catch (error) {
@@ -54,14 +56,14 @@ export class ProductsController{
     }
     static deleteProduct =  async (req, res) => {
         try {
-          const productId = req.params.pid;
-          const result = await ProductsService.deleteProduct(productId);
-          if (result) {
-            console.log('hola eliminado');
-            return res.status(200).json({ status: "success", message: "Producto eliminado" });
-          } else {
-            return res.status(404).json({ status: "error", message: "Producto no encontrado" });
-          }
+          const productId = req.params.pid;          
+          const product = await ProductsService.getProductById(productId);
+          if((req.user.role === "premium" && product.owner.toString() === req.user._id.toString()) || req.user.role === "admin"){
+            await ProductsService.deleteProduct(productId);
+            return res.json({ status: "success", message: "Producto eliminado con exito" });
+          } else{
+            return res.json({ status: "error", message: "No tienes permiso para eliminar el producto" });
+          }        
         } catch (error) {
           return res.status(500).send(error.message);
         }

@@ -45,7 +45,6 @@ export class ViewsController {
                 sort: { price: sortValue },
                 lean: true
             });
-            // console.log(result);
             // asi capturo la ruta de mi servidor capturo el protocolo"http" y el host: "localhost"
             const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`
             const resultProductsView = {
