@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import { usersCollection, productsCollection } from "../../constants/index.js";
 
 const userSchema = new mongoose.Schema({
-    name: {
+    first_name: {
         type:String,
         required:true,
     },
-    lastname:String,
+    last_name:String,
     email: {
         type:String,
         required:true,
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type:String,
         required:true,
-        enum: ["user", "admin"],
+        enum: ["user", "admin", "premium"],
         default: "user"
     },
     userProd: {

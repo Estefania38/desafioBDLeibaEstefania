@@ -1,9 +1,8 @@
-import passport from "passport";
-import LocalStrategy from "passport-local";
-import { createHash, isValidPassword } from "../utils.js";
-import githubStrategy from "passport-github2";
+import passport from "passport";//
+import LocalStrategy from "passport-local";//
+import { createHash, isValidPassword, generateToken } from "../utils.js";//
+import githubStrategy from "passport-github2";//
 import { config } from "./config.js";
-import {generateToken} from "../utils.js"
 import { UsersService } from "../services/users.service.js";
 
 export const initializePassport = () => {
@@ -14,10 +13,11 @@ export const initializePassport = () => {
         },
         async (req, username, password, done) => {
             try {
-                const {first_name, last_name, age} = req.body;
+                const { first_name, last_name, email} = req.body;
                 //verificar si el usuario ya se registro
-                const user = await UsersService.getUserByEmail(username);
-                if(user){
+                const user = await UsersService.getUserByEmail({ email:username});
+                if (user!='') {
+                    console.log('El usuario ya existe!')
                     return done(null, false)
                 }
                 let role = "user";
@@ -25,15 +25,17 @@ export const initializePassport = () => {
                     role="admin";
                 }
                 const newUser = {
-                    first_name:first_name,
-                    email: username,
-                    password: createHash(password),
-                    role:role
+                    first_name,
+                    last_name,
+                    email,
+                    role,
+                    password: createHash(password),                    
                 }
                 const userCreated = await UsersService.createUser(newUser);
                 return done(null, userCreated)
             } catch (error) {
-                return done(error);               
+                // return done(error)         
+                console.log(error)
             }
         }
     ));

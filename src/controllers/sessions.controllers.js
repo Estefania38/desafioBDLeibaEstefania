@@ -1,6 +1,6 @@
-import { createHash } from "../utils.js";
-import { UsersControllers } from "./users.controllers.js";
+import { createHash, validateToken } from "../utils.js";
 import {generateEmailToken, recoveryEmail} from "../helpers/gmail.js"
+import { UsersService } from "../services/users.service.js";
 
 export class SessionsControllers {
 
@@ -24,12 +24,12 @@ export class SessionsControllers {
     static changePassword = async (req, res) => {
         try {
             const form = req.body;
-            const user = await UsersControllers.getUserByEmail(form.email);
+            const user = await UsersService.getUserByEmail(form.email);
             if (!user) {
                 return res.render("changePassword", { error: "No es posible cambiar la contraseña" });
             }
             user.password = createHash(form.newPassword);
-            await UsersControllers.updateUser(user._id, user);
+            await UsersService.updateUser(user._id, user);
             return res.render("login", { message: "Contraseña restaurada" });
         } catch (error) {
             res.render("changePassword", { error: error.message });
@@ -50,7 +50,7 @@ export class SessionsControllers {
     static forgotPassword = async (req, res)=>{
         try {
             const {email} = req.body;
-            const user = await UsersControllers.getUserByEmail(email);
+            const user = await UsersService.getUserByEmail(email);
             if(!user){
                 return res.json({status:"error", message:"No es posible restablecer la constraseña"});
             }
@@ -58,7 +58,7 @@ export class SessionsControllers {
             const token = generateEmailToken(email,5*60); //token de 5 min.
             //Enviar el mensaje al usuario con el enlace
             await recoveryEmail(req,email,token);
-            res.send("Correo enviado, volver al home");
+            res.send("Correo enviado, volver al home  <a href='/'>Volver al Home</a>");
         } catch (error) {
             res.json({status:"error", message:"No es posible restablecer la constraseña"});
         }
@@ -69,10 +69,10 @@ export class SessionsControllers {
             const {newPassword} = req.body;
             const validEmail = validateToken(token);
             if(validEmail){//token correcto
-                const user = await UsersControllers.getUserByEmail(validEmail);
+                const user = await UsersService.getUserByEmail(validEmail);
                 if(user){
                     user.password = createHash(newPassword);
-                    await UsersControllers.updateUser(user._id,user);
+                    await UsersService.updateUser(user._id,user);
                     res.send("Contraseña actualizada <a href='/login'>Ir al login</a>")
                 }
             } else {

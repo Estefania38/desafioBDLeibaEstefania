@@ -3,10 +3,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import jwt from "jsonwebtoken";
+import { config } from "./config/config.js"
 
 // aca creo la clave secreta del token
 
-const SECRET_TOKEN_KEY ="clavedetoken1983";
+const SECRET_TOKEN_KEY =config.token.password;
 
 
 export const createHash = (password)=>{

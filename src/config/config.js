@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-
 dotenv.config();
 
 export const config={
@@ -25,6 +24,9 @@ export const config={
         account: process.env.ADMIN_EMAIL,
         password: process.env.ADMIN_PASS,
         secretToken: process.env.SECRET_TOKEN_EMAIL,
+    },
+    token:{
+        password:process.env.SECRET_TOKEN_KEY,
     }
     
 }

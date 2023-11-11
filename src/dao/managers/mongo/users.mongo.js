@@ -43,7 +43,7 @@ async getUserById(userId) {
 // traer el usuario por el email
 async getByEmail(userEmail){
     try {
-        const user = await this.model.findOne({email:userEmail});
+        const user = await this.model.findOne({email:userEmail}).lean();
         if(user){
             return user;
         } else{
