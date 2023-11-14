@@ -1,38 +1,61 @@
-import express from "express";//
-import {config} from "./config/config.js";//
-// import {transporter, adminEmail} from "./config/gmail.config.js"
-import { __dirname } from "./utils.js";//
-import path from "path";//
-import {engine} from "express-handlebars";//
+// Importaciones de Express
+import express from "express";
 import session from "express-session";
-import FileStore from "session-file-store";
-import MongoStore from "connect-mongo";
+import {engine} from "express-handlebars";
+import { __dirname } from "./utils.js";
 import { swaggerSpecs } from "./config/swagger.config.js";
 import swaggerUI from "swagger-ui-express";
+import {addLogger } from "./helpers/logger.js"
+
+// Importaciones de Passport
 import passport from "passport";
 import { initializePassport } from "./config/passportConfig.js";
-import compression from "express-compression";
-// importando mis rutas
-import { viewsRouter } from "./routes/views.routes.js";//
-import { productsRouter } from "./routes/products.routes.js";//
+
+// Importaciones de Moongose
+import MongoStore from "connect-mongo";
+
+// Importaciones de Socket
+import { Server } from "socket.io";
+
+// Importaciones de Rutas
+import { viewsRouter } from "./routes/views.routes.js";
+import { productsRouter } from "./routes/products.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { contactsRouter} from "./routes/contacts.routes.js";
 import { businessRouter } from "./routes/business.routes.js";
-// import cors from "cors";
-import {addLogger } from "./helpers/logger.js"
+
+// Otras importaciones
+import {config} from "./config/config.js";
+import path from "path";
+import FileStore from "session-file-store";
+// import compression from "express-compression";
 
 
-
-//inicializando el servidor
-const app = express();//
+//Configuracion del servidor Express
+const app = express();
 const logger = addLogger();
-const port = config.server.port;//
+// EXPRESS AND SOCKET SERVER RUN
+const port = config.server.port || 8080
+try {
+    const httpServer = app.listen(port,()=>logger.info(`server listening on port ${port}`));
+    const io = new Server(httpServer)  
 
+    io.on('connection', (socket)=>{
+        logger.info('Socket client conected...')        
+        socket.on('change', (data)=>{
+            io.emit('products', data)
+        })
+        socket.on('send', (data)=>{
+            io.emit('messages', data)
+        })
+    })        
+}
+catch{
+    logger.fatal("ERROR TO ACCESS ON DB");
+}
 
-//guardar el servidor http en una variable
-app.listen(port,()=>logger.info(`server listening on port ${port}`));//
 
 //conectar session con filestorage
 const fileStorage = FileStore(session);
@@ -89,4 +112,4 @@ app.get('/loggerTest', (req, res) => {
     res.send('Registros realizados.');
 });
 
-
+export {app}

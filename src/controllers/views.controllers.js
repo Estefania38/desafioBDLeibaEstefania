@@ -71,7 +71,7 @@ export class ViewsController {
     // este no lo estoy usando actualmente
     static renderRealTimeProducts = async (req, res) => {
         try {
-            const listaproductos = await pmanagersocket.getProducts({})
+            const listaproductos = await productDao.getProducts({})
             console.log(listaproductos);
             res.render("realTimeProducts", { listaproductos: listaproductos });
         } catch (error) {
