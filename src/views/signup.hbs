@@ -9,7 +9,7 @@
          <p style="color:red">{{error}}</p>
   </div>
   <div class="formulario">
-    <form method="post" action="/api/sessions/signup">
+   <form method="post" action="/api/sessions/signup" enctype="multipart/form-data">
       <h3>Registrate</h3>
       <div class="input-group">
         <label for="name">Nombre</label>
@@ -24,6 +24,9 @@
         <label for="message">Password</label>
         <input type="password" placeholder="Ingrese su contraseña" name="password" />
         <br /><br />
+        <label for="message">Ingresa tu imagen de perfil</label>
+        <input type="file" name="avatar"/>
+        <br/><br/>
         <button class="btn" type="submit">Registrarse</button>
 
         <br><br>

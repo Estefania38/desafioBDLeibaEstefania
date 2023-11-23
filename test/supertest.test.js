@@ -13,16 +13,16 @@ describe("Testing de  tienda_online", () => {
         it('Endpoint POST de api/sessions/signup - Registrar un usuario', 
         async ()=>{
             const person = {
-                // first_name: "Andrea",
-                // last_name: "Perez",
-                // email: "andreaperez@coder.com",
-                // password: "coder123"
+                first_name: "Andrea",
+                last_name: "Perez",
+                email: "andreaperez@coder.com",
+                password: "coder123"
 
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: faker.internet.email(),
-                age: faker.string.numeric({length:2}),
-                password: faker.string.alphanumeric({length:10})
+                // first_name: faker.person.firstName(),
+                // last_name: faker.person.lastName(),
+                // email: faker.internet.email(),
+                // age: faker.string.numeric({length:2}),
+                // password: faker.string.alphanumeric({length:10})
             };
             const response = await requester.post('/api/sessions/signup').send(person);
             //console.log(response)
@@ -33,19 +33,19 @@ describe("Testing de  tienda_online", () => {
         })
 
         it('Endpoint POST de api/session/signup - No se debe registrar si se repite el usuario', async () => {
-            // const person = {
-            //     first_name: "Andrea",
-            //     last_name: "Perez",
-            //     email: "andreaperez@coder.com",
-            //     password: "coder123"
-            // }
             const person = {
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: "arturoguerraba@gmail.com",
-                age: faker.string.numeric({length:2}),
-                password: faker.string.alphanumeric({length:10})                
+                first_name: "Andrea",
+                last_name: "Perez",
+                email: "andreaperez@coder.com",
+                password: "coder123"
             }
+            // const person = {
+            //     first_name: faker.person.firstName(),
+            //     last_name: faker.person.lastName(),
+            //     email: "arturoguerraba@gmail.com",
+            //     age: faker.string.numeric({length:2}),
+            //     password: faker.string.alphanumeric({length:10})                
+            // }
             const response = await requester.post('/api/session/signup').send(person)
             const { text } = response
             expect(text).to.be.eq('Found. Redirecting to /api/sessions/fail-signup')
