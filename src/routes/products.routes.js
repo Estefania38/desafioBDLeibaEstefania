@@ -2,6 +2,7 @@ import { Router } from "express";
 import { __dirname } from "../utils.js";
 import { ProductsController } from "../controllers/products.controllers.js"; 
 import {checkRole, checkAuthenticated} from "../middlewares/auth.js"
+import {uploaderProduct} from "../utils.js"
 
 
 const productCodes = new Set();
@@ -28,7 +29,7 @@ router.get("/", ProductsController.getProducts);
 router.get("/:pid", ProductsController.getProductById);
 
 // Ruta POST / corregido ok
-router.post("/", checkAuthenticated, checkRole(["admin", "superadmin", "premium"]),validateFields, ProductsController.createdProduct);
+router.post("/", checkAuthenticated, checkRole(["admin", "superadmin", "premium"]), uploaderProduct.single("thumbnail"), validateFields, ProductsController.createdProduct);
 
 // Ruta PUT /:pid corregido ok
 router.put("/:pid", checkAuthenticated, checkRole(["admin"]),validateFields, ProductsController.updateProduct);
