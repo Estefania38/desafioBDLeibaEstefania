@@ -5,6 +5,69 @@ import githubStrategy from "passport-github2";//
 import { config } from "./config.js";
 import { UsersService} from "../services/users.service.js";
 
+// export const initializePassport = ()=>{
+//     passport.use("signupStrategy", new LocalStrategy(
+//         {
+//             //username, password
+//             usernameField:"email",
+//             passReqToCallback:true,
+//         },
+//         async (req, username, password, done)=>{
+//             try {
+//                 const {first_name} = req.body;
+//                 //verificar si el usuario ya se registro
+//                 const user = await UsersService.getByEmail(username);
+//                 if(user){
+//                     return done(null, false)
+//                 }
+//                  let role = "user";
+//                  if (username.endsWith("@coder.com")) {
+//                      role = "admin";
+//                  }
+//                  const newUser = {
+//                     first_name:first_name,
+//                     email: username,
+//                     password:createHash(password)
+//                 }
+//                 const userCreated = await UsersService.save(newUser);
+//                 return done(null,userCreated)//En este punto passport completa el proceso de manera satisfactoria
+//             } catch (error) {
+//                 return done(error)
+//             }
+//         }
+//     ));
+
+   
+
+//     passport.use("loginStrategy", new LocalStrategy(
+//         {
+//             usernameField: "email"
+//         },
+//         async (username, password, done) => {
+//             try {
+//                 //verificar si el usuario ya se registro
+//                 const user = await UsersService.getByEmail(username);
+//                 if (!user) {
+//                     return done(null, false)
+//                 }
+//                 //si el usuario existe, validar la contraseña
+//                 if (isValidPassword(user, password)) {
+//                      const accessToken = generateToken({ email: user.email, role: user.role });
+//                      user.token = accessToken;
+//                      user.last_connection = new Date();
+//                      await UsersService.update(user._id, user);
+//                     return done(null, user);
+//                 } else {
+//                     return done(null, false);
+//                 }
+//             } catch (error) {
+//                 return done(error);
+//             }
+//         }
+//     ));
+
+
+
 export const initializePassport = ()=>{
     passport.use("signupStrategy", new LocalStrategy(
         {
@@ -15,19 +78,22 @@ export const initializePassport = ()=>{
         async (req, username, password, done)=>{
             try {
                 const {first_name} = req.body;
+                console.log(req.file);
                 //verificar si el usuario ya se registro
                 const user = await UsersService.getByEmail(username);
                 if(user){
                     return done(null, false)
                 }
-                 let role = "user";
-                 if (username.endsWith("@coder.com")) {
-                     role = "admin";
-                 }
-                 const newUser = {
+                let role = "user";
+                if(username.endsWith("@coder.com")){
+                    role="admin";
+                }
+                const newUser = {
                     first_name:first_name,
                     email: username,
-                    password:createHash(password)
+                    password: createHash(password),
+                    role:role,
+                    avatar:req.file.filename,
                 }
                 const userCreated = await UsersService.save(newUser);
                 return done(null,userCreated)//En este punto passport completa el proceso de manera satisfactoria
@@ -37,26 +103,22 @@ export const initializePassport = ()=>{
         }
     ));
 
-   
-
     passport.use("loginStrategy", new LocalStrategy(
         {
-            usernameField: "email"
+            usernameField:"email"
         },
-        async (username, password, done) => {
+        async(username, password, done)=>{
             try {
                 //verificar si el usuario ya se registro
                 const user = await UsersService.getByEmail(username);
-                if (!user) {
+                if(!user){
                     return done(null, false)
                 }
-                //si el usuario existe, validar la contraseña
-                if (isValidPassword(user, password)) {
-                     const accessToken = generateToken({ email: user.email, role: user.role });
-                     user.token = accessToken;
-                     user.last_connection = new Date();
-                     await UsersService.update(user._id, user);
-                    return done(null, user);
+                //si el usuario ya se registro, validar la contraseña
+                if(isValidPassword(user,password)){
+                    user.last_connection = new Date();
+                    await UsersService.update(user._id,user);
+                    return done(null,user);
                 } else {
                     return done(null, false);
                 }
@@ -65,7 +127,6 @@ export const initializePassport = ()=>{
             }
         }
     ));
-
     passport.use("githubLoginStrategy", new githubStrategy(
         {
             clientID: config.github.clientId,

@@ -3,7 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import jwt from "jsonwebtoken";
-import { config } from "./config/config.js"
+import { config } from "./config/config.js";
+import multer from "multer";
 
 // aca creo la clave secreta del token
 
@@ -33,6 +34,14 @@ export const validateToken = (req, res, next) => {
         req.user = payload;
         next();
     })
+};
+
+const checkValidFields = (body)=>{
+    const {first_name, email, password} = body;
+    if(!first_name || !email || !password){
+        return false;
+    }
+    return true;
 };
 
 //filtro para nuestra carga de imagenes de perfil
