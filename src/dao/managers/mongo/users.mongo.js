@@ -28,16 +28,17 @@ async getUsers() {
 };
 
 // traer usuario por id  
-async getUserById(userId) {
+async getById(userId) {
     try {
         const user = await this.model.findById(userId).lean().populate('userProd');
-        if(!user){
-            throw new Error("Usuario no registrado")
+        if(user){
+            return user;
+        } else{
+            throw new Error("El usuario no existe");
         }
-        return user;            
     } catch (error) {
         console.log(error.message);
-        throw new Error("Usuario no encontrado");
+        throw error;
     }
 };
 // traer el usuario por el email
@@ -55,7 +56,7 @@ async getByEmail(userEmail){
 };
 
 // actualizar usuario
-async updateUser(userId, newUserInfo) {
+async update(userId, newUserInfo) {
     try {
         const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new: true}); // Devolverá el documento modificado después de la actualización
         if (userUpdated) {

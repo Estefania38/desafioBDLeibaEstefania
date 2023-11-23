@@ -5,12 +5,13 @@ import { SessionsControllers } from "../controllers/sessions.controllers.js";
 
 const router = Router();
 
-router.post("/signup", passport.authenticate("signupStrategy",
- {
-    failureRedirect: "/api/sessions/fail-signup"
-}), SessionsControllers.redirectLogin);
+router.post("/signup", passport.authenticate("signupStrategy",{
+   failureRedirect:"/api/sessions/fail-signup"
+ }), SessionsControllers.redirectLogin);
 
-router.get("/fail-signup", SessionsControllers.failSignup);
+ router.get("/fail-signup", SessionsControllers.failSignup);
+
+
 
 router.post("/login", passport.authenticate("loginStrategy",{
     failureRedirect:"/api/sessions/fail-login"

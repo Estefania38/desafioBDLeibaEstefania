@@ -14,23 +14,11 @@ export class CartsController {
         }
     }
 
-    // static saveCarts = async (req, res) => {
-    //     try {
-    //         const newCart = {};
-    //         const cartCreated = await CartsService.saveCarts(newCart);
-    //         res.json({ status: "success", message: "Carrito creado", data: cartCreated });
-    //     } catch (error) {
-    //         res.status(500).json({ status: "error", message: error.message });
-    //     }
-    // }
-
-    //////////////////////////////////////////////////////
-
 
     static createCarts = async(req,res)=>{
         try {
             const {cartNumber, userId, businessId, products } = req.body;
-            const user = await UsersService.getUserById(userId);
+            const user = await UsersService.getById(userId);
             const business = await BusinessService.getBusinessById(businessId);
             //obtenemos los productos del negocio con su id y precio.
             const productsCart = business.products.filter(product=>products.includes(product.id));
@@ -62,16 +50,13 @@ export class CartsController {
             const cartId = req.params.cid;
             const cart = await CartsService.getCartById (cartId);
             cart.status="completada";
-            await CartsService.resolveCart (cid,cart);
+            await CartsService.resolveCart(cid,cart);
             res.send({status:"success", result:"orden de carrito completada"});
         } catch (error) {
             console.log(error);
             res.status(400).json({status: "error", message:error.message});
         }
     };
-
-
-
 
 
     //////////////////////////////////////////////////

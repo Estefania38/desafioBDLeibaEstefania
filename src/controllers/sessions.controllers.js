@@ -5,17 +5,16 @@ import { UsersService } from "../services/users.service.js";
 export class SessionsControllers {
 
     static redirectLogin =  (req, res) => {
-        res.redirect("/login", { message: "usuario registrado con exito" })
+        res.render("login",{message:"usuario registrado con exito"});
     }
-    static failSignup = (req, res) => {   
-        res.send("<p>No se pudo registrar al usuario, <a href='/registro'>intenta de nuevo</a></p>");
-        // res.render("signup", { error: "Error al registrar el usuario" });
+    static failSignup = (req, res) => {           
+        res.render("signup", { error: "Error al registrar el usuario" });
     }
     static renderProfile = (req,res)=>{
         const user = req.user;
         console.log("user", user);
         res.render("profile",{user});
-        // res.redirect("/perfil");
+       
     }
     static failLogin =  (req,res)=>{
         res.send("<p>No se pudo loguear al usuario, <a href='/login'>intenta de nuevo</a></p>");
@@ -24,12 +23,12 @@ export class SessionsControllers {
     static changePassword = async (req, res) => {
         try {
             const form = req.body;
-            const user = await UsersService.getUserByEmail(form.email);
+            const user = await UsersService.getByEmail(form.email);
             if (!user) {
                 return res.render("changePassword", { error: "No es posible cambiar la contraseña" });
             }
             user.password = createHash(form.newPassword);
-            await UsersService.updateUser(user._id, user);
+            await UsersService.update(user._id, user);
             return res.render("login", { message: "Contraseña restaurada" });
         } catch (error) {
             res.render("changePassword", { error: error.message });
@@ -50,7 +49,7 @@ export class SessionsControllers {
     static forgotPassword = async (req, res)=>{
         try {
             const {email} = req.body;
-            const user = await UsersService.getUserByEmail(email);
+            const user = await UsersService.getByEmail(email);
             if(!user){
                 return res.json({status:"error", message:"No es posible restablecer la constraseña"});
             }
@@ -69,10 +68,10 @@ export class SessionsControllers {
             const {newPassword} = req.body;
             const validEmail = validateToken(token);
             if(validEmail){//token correcto
-                const user = await UsersService.getUserByEmail(validEmail);
+                const user = await UsersService.getByEmail(validEmail);
                 if(user){
                     user.password = createHash(newPassword);
-                    await UsersService.updateUser(user._id,user);
+                    await UsersService.update(user._id,user);
                     res.send("Contraseña actualizada <a href='/login'>Ir al login</a>")
                 }
             } else {

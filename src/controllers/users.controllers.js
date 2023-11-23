@@ -12,17 +12,17 @@ export class UsersControllers {
             res.json({ status: "error", message: "hubo un error al obtener los usuarios" })
         }
     }
-    static getUserById = async (req, res) => {
+    static getById = async (req, res) => {
         try {
             const userId = req.params.uid;
-            const user = await UsersService.getUserById(userId);
+            const user = await UsersService.getById(userId);
             res.json({ status: "success", data: user });
         } catch (error) {
             console.log(error.message);
             res.json({ status: "error", message: "hubo un error al obtener los usuarios" })
         }
     }
-    static createUser = async (req, res) => {
+    static save = async (req, res) => {
         try {
             const newUser = req.body;
             if (!first_name || !last_name || !email) {
@@ -34,7 +34,7 @@ export class UsersControllers {
                     errorCode: EError.INVALID_JSON
                 });
             }
-            const userCreated = await UsersService.createUser(newUser);
+            const userCreated = await UsersService.save(newUser);
             res.json({ status: "success", data: userCreated, message: "usuario creado con exito" });
         } catch (error) {
             console.log(error.message);
@@ -44,19 +44,19 @@ export class UsersControllers {
     static updateUser = async (req, res) => {
         try {
             const { uid, pid } = req.params;
-            const user = await UsersService.getUserById(uid);
+            const user = await UsersService.getById(uid);
             user.userProd.push(pid);
 
-            const result = await UsersService.updateUser(uid, user);
+            const result = await UsersService.update(uid, user);
             res.json({ status: "success", data: result, message: "usuario actualizado con exito" });
         } catch (error) {
             console.log(error.message);
             res.json({ status: "error", message: "hubo un error al actualizar los usuarios" })
         }
     }
-    static getUserByEmail = async (req, res) => {
+    static getByEmail = async (req, res) => {
         try {
-            const user = await UsersService.getUserByEmail({ email: userEmail });
+            const user = await UsersService.getByEmail({ email: userEmail });
             if (user) {
                 return user;
             } else {
@@ -70,7 +70,7 @@ export class UsersControllers {
         try {
             const userId = req.params.uid;
             //verificar si el usuario en la db
-            const user = await UsersService.getUserById(userId);
+            const user = await UsersService.getById(userId);
             const userRole = user.role;
             //validacion del role actual y cambio
             if(userRole === "user"){
@@ -80,7 +80,7 @@ export class UsersControllers {
             } else {
                 return res.json({status:"error", message:"No se puede cambiar el role de este usuario"});
             };
-            await UsersService.updateUser(user._id,user);
+            await UsersService.update(user._id,user);
             return res.json({status:"success", message:`El nuevo rol del usuario es ${user.role}`});
         } catch (error) {
             res.json({status:"error", message:error.message});

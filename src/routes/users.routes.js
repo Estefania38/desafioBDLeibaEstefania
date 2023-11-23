@@ -6,9 +6,9 @@ import { UsersControllers } from "../controllers/users.controllers.js";
 
 const router = Router ();
 
-router.get("/", UsersControllers.getUsers );
-router.get("/:uid", UsersControllers.getUserById );
-router.post("/", UsersControllers.createUser );
+router.get("/", UsersControllers.getUsers);
+router.get("/:uid", UsersControllers.getById);
+router.post("/", UsersControllers.save);
 // actualizar usuario
 router.put("/:uid/:pid", UsersControllers.updateUser);
 router.post("/premium/:uid", checkRole(["admin"]) ,UsersControllers.modifyRole);

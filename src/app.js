@@ -9,7 +9,7 @@ import {addLogger } from "./helpers/logger.js"
 
 // Importaciones de Passport
 import passport from "passport";
-import { initializePassport } from "./config/passportConfig.js";
+import {initializePassport} from "./config/passportConfig.js";
 
 // Importaciones de Moongose
 import MongoStore from "connect-mongo";
@@ -43,7 +43,8 @@ try {
     const io = new Server(httpServer)  
 
     io.on('connection', (socket)=>{
-        logger.info('Socket client conected...')        
+        logger.info('Socket client conected...')
+        
         socket.on('change', (data)=>{
             io.emit('products', data)
         })
@@ -55,6 +56,7 @@ try {
 catch{
     logger.fatal("ERROR TO ACCESS ON DB");
 }
+
 
 
 //conectar session con filestorage
@@ -111,5 +113,30 @@ app.get('/loggerTest', (req, res) => {
 
     res.send('Registros realizados.');
 });
+
+// let messages=[];
+// //socket server
+// io.on("connection",(socket)=>{
+//     console.log("nuevo cliente conectado");
+
+//     socket.on("authenticated",(msg)=>{
+//         socket.emit("messageHistory", messages);
+//         socket.broadcast.emit("newUser",msg);
+//     });
+
+//     //recibir el mensaje del cliente
+//     socket.on("message",(data)=>{
+//         console.log("data", data);
+//         messages.push(data);
+
+//         //cada vez que recibamos este mensaje, enviamos todos los mensajes actualizados a todos los clientes conectados
+//         io.emit("messageHistory", messages);
+//     })
+// });
+
+
+
+
+
 
 export {app}

@@ -1,19 +1,19 @@
 import { usersDao } from "../dao/factory.js";
 
 export class UsersService {
-   static getUserByEmail = async (email) =>{
+   static getByEmail = async (email) =>{
     return await usersDao.getByEmail(email);
    };
-   static createUser = async (Newuser) =>{
+   static save = async (Newuser) =>{
     return await usersDao.save(Newuser);
    };
-   static getUserById = async (userId) =>{
-    return  await usersDao.getUserById(userId);
+   static getById = async (userId) =>{
+    return  await usersDao.getById(userId);
    };
    static getUsers = async ()=>{
       return await usersDao.getUsers();
-   };
-   static  updateUser = async (userId, newUserInfo) =>{
-      return await usersDao.updateUser(userId, newUserInfo);
+   }; updateUser
+   static update = async (userId, newUserInfo) =>{
+      return await usersDao.update(userId, newUserInfo);
    };
 };
