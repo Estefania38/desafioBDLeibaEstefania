@@ -31,3 +31,4 @@ export const config={
     
 }
 
+// este archivo esta semi-completo

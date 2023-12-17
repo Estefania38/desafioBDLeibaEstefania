@@ -1,40 +1,37 @@
-import passport from "passport";//
-import LocalStrategy from "passport-local";//
-import { createHash, isValidPassword, generateToken } from "../utils.js";//
-import githubStrategy from "passport-github2";//
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import { createHash, isValidPassword, generateToken } from "../utils.js";
+import { UsersService } from "../services/users.service.js";
+import githubStrategy from "passport-github2";
 import { config } from "./config.js";
-import { UsersService} from "../services/users.service.js";
 
-
-export const initializePassport = ()=>{
+export const initializePassport = () => {
     passport.use("signupStrategy", new LocalStrategy(
         {
             //username, password
-            usernameField:"email",
-            passReqToCallback:true,
+            usernameField: "email",
+            passReqToCallback: true,
         },
-        async (req, username, password, done)=>{
+        async (req, username, password, done) => {
             try {
-                const {first_name} = req.body;
-                console.log(req.file);
+                const { first_name } = req.body;
                 //verificar si el usuario ya se registro
                 const user = await UsersService.getByEmail(username);
-                if(user){
+                if (user) {
                     return done(null, false)
-                }
+                } //desde aca es una prueba
                 let role = "user";
-                if(username.endsWith("@coder.com")){
-                    role="admin";
-                }
+                if (username.endsWith("@coder.com")) {
+                    role = "admin";
+                } // aca termina la prueba
                 const newUser = {
-                    first_name:first_name,
+                    first_name: first_name,
                     email: username,
-                    password: createHash(password),
-                    role:role,
-                    avatar:req.file.filename,
+                    role,
+                    password: createHash(password)
                 }
                 const userCreated = await UsersService.save(newUser);
-                return done(null,userCreated)//En este punto passport completa el proceso de manera satisfactoria
+                return done(null, userCreated)//En este punto passport completa el proceso de manera satisfactoria
             } catch (error) {
                 return done(error)
             }
@@ -43,22 +40,20 @@ export const initializePassport = ()=>{
 
     passport.use("loginStrategy", new LocalStrategy(
         {
-            usernameField:"email"
+            usernameField: "email"
         },
-        async(username, password, done)=>{
+        async (username, password, done) => {
             try {
                 //verificar si el usuario ya se registro
                 const user = await UsersService.getByEmail(username);
-                if(!user){
+                if (!user) {
                     return done(null, false)
                 }
-                //si el usuario ya se registro, validar la contraseña
-                if(isValidPassword(user,password)){
+                //si el usuario existe, validar la contraseña
+                if (isValidPassword(user, password)) {// agregado para prueba
                     const accessToken = generateToken({ email: user.email, role: user.role });
-                    user.token = accessToken;
-                    user.last_connection = new Date();
-                    await UsersService.update(user._id,user);
-                    return done(null,user);
+                    user.token = accessToken; // aca finaliza
+                    return done(null, user);
                 } else {
                     return done(null, false);
                 }
@@ -95,13 +90,16 @@ export const initializePassport = ()=>{
                 return done(error);
             }
         }
+
     ));
-    // serializacion y deserializacion
+
+    //serializacion y deserializacion
     passport.serializeUser((user, done) => {
-        done(null, user._id)
+        done(null, user._id);
     });
+
     passport.deserializeUser(async (id, done) => {
         const user = await UsersService.getById(id);
-        done(null, user)
+        done(null, user) //req.user --->sesions req.sessions.user
     });
 }

@@ -1,19 +1,25 @@
-<h2>Mira las ofertas especiales del mes de la niñez!</h2>
+<h2>Mira las ofertas especiales para las fiestas!</h2>
 
-<imput id="" type="text" placeholder="ingrese el mensaje"/> 
+<div class="carrousel">
+    <ul>
+        <li><img src="images/lineablanca.jpg" alt="nacion"></li>
+         <li><img src="images/christmas-sale-banner.jpg" alt="nacion"></li>
+          <li><img src="images/lineablanca.jpg" alt="nacion"></li>
+           <li><img src="images/lineablanca.jpg" alt="nacion"></li>
+    </ul>
+</div>
 
-<div id="messagelogs"></div>
-
-{{#each listadeproductos}}
+  <article id="list-products">
 <article class="container">
+    {{#each listaproductos}}
       <div class="card">
         <div class="imgBx">
-          <img src="{{thumbnail}}" width="90px" />
+          <img src="{{this.thumbnail}}" width="90px" />
         </div>
         <div class="contentBx">
-          <h2>{{title}}</h2>
+          <h2>{{this.title}}</h2>
           <div class="size">
-            <h3>{{description}}</h3>
+            <h3>{{this.description}}</h3>
             <span>7</span>
             <span>8</span>
             <span>9</span>
@@ -29,8 +35,10 @@
         </div>
       </div>
       
-    </article>
-{{/each}}
+{{/each}} 
+
+
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

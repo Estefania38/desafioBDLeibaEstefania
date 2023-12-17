@@ -3,16 +3,15 @@ import mongoose from "mongoose";
 const ticketsCollection = "tickets";
 
 const ticketSchema = new mongoose.Schema({
-    code:{
-        type:String,
-        required:true
+    code: String,
+    amount: Number,
+    purchaser: String
     },
-    purchase_datetime:Date,
-    amount:{
-        type:Number,
-        required:true
-    },
-    purchaser:String,
-});
+    {timestamps:true}
+)
+
+mongoose.set('strictQuery',false)
 
 export const ticketsModel = mongoose.model(ticketsCollection,ticketSchema);
+
+

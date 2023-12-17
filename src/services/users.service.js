@@ -13,7 +13,7 @@ export class UsersService {
    static getUsers = async ()=>{
       return await usersDao.getUsers();
    }; updateUser
-   static update = async (userId, newUserInfo) =>{
-      return await usersDao.update(userId, newUserInfo);
+   static updateUser = async (userId, newUserInfo) =>{
+      return await usersDao.updateUser(userId, newUserInfo);
    };
 };

@@ -7,7 +7,7 @@ export class CartsMongo {
     this.model = cartsModel;
   };
 
-  async getCarts() {
+  async getCart() {
     try {
       const carts = await this.model.find().lean();
       return carts;
@@ -16,7 +16,7 @@ export class CartsMongo {
     }
   };
 
-  async createCarts(cart) {
+  async createCart (cart) {
     try {
       const cartCreated = await this.model.create(cart);
       if (!cart) {

@@ -10,6 +10,20 @@ export class ViewsController {
     static renderLogin = (req, res) => {
         res.render("login");
     };
+    static renderCart = (req, res) => {
+        res.render("cart");
+    };
+    static renderDeleteProduct= (req, res) => {
+        res.render("deleteProduct");
+    };
+    static renderCreateProduct= (req, res) => {
+        res.render("createProduct");
+    };
+
+
+    
+
+    
     //chequear ruta de perfil
     static renderProfile = (req, res) => {
         console.log(req.user);

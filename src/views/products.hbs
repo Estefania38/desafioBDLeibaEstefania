@@ -1,4 +1,3 @@
-
 <p><strong>{{error}}</strong></p>
 <div class="products">
 {{#if payload}}
@@ -23,8 +22,12 @@
             <a>Stock: {{this.stock}}</a>
           </div>
         </div>
-      </div>   
-      <button class="botons" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>   
+      </div>  
+           {{!-- <form action="http://localhost:8080/api/cart/{{../user.cart}}/products/{{this._id}}" method="post">
+                        <button type="submit" onclick='delete({{this._id}})' class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir al carrito</button> --}}
+                  
+      <button  type="submit" class="botons" onclick='addProductToCart({{this._id}})'>Agregar al carrito</button>   
+        </form>  
      {{/each}}
      </ul>  
     </article>

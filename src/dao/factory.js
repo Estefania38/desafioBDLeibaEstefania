@@ -1,4 +1,5 @@
 import { config } from "../config/config.js";
+
 // import { ProductManager } from "./managers/fileSystem/productsFiles.js";
 // import { CartManager } from "./managers/fileSystem/cartsFiles.js";
 
@@ -10,6 +11,7 @@ let cartDao;
 let usersDao;
 let ticketsDao;
 let businessDao;
+// let chatDao;
 
 switch (persistence) {
     case "mongo":
@@ -23,12 +25,14 @@ switch (persistence) {
         const {CartsMongo } = await import("./managers/mongo/cartMongo.js");
         const {TicketsMongo } = await import("./managers/mongo/ticketsMongo.js");
         const {BusinessMongo } = await import ("./managers/mongo/businessMongo.js");
+        // const {ChatMongo} = await import ("./managers/mongo/chatMongo.js");
         contactsDao = new ContactsMongo();
         productDao = new ProductsMongo();
         usersDao  = new UsersMongo();
         cartDao = new CartsMongo();
         ticketsDao = new TicketsMongo();
         businessDao = new BusinessMongo();
+        // chatDao= new ChatMongo();
         break;
 
      case "memory":

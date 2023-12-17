@@ -1,41 +1,58 @@
-<div id="contacto">
+ <div id="contacto">
   <div class="con1">
-    <h2>Registro de usuario<h2>
-        <p>Para registrarte ingresa los datos solicitados</p>
+        <h2>Registro de usuario<h2>        
+        <p>Para registrarte ingresa los datos solicitados</p>              
         <p>Para contactarnos</p>
         <p>Puedes hacerlo al:</p>
         <p>0810-810-9994</p>
-        <p>contacto@tiendaelectro.com.ar</p>
-         <p style="color:red">{{error}}</p>
-  </div>
-  <div class="formulario">
-   <form method="post" action="/api/sessions/signup" enctype="multipart/form-data">
-      <h3>Registrate</h3>
-      <div class="input-group">
-        <label for="name">Nombre</label>
-        <input type="text" placeholder="Ingrese su nombre" name="first_name" />
-        <br /><br />
-        <label for="phone">Apellido</label>
-        <input type="text" placeholder="Ingrese su apellido" name="last_name" />
-        <br /><br />
-        <label for="email">Email</label>
-        <input type="email" placeholder="Ingrese su correo" name="email" />
-        <br /><br />
-        <label for="message">Password</label>
-        <input type="password" placeholder="Ingrese su contraseña" name="password" />
-        <br /><br />
-        <label for="message">Ingresa tu imagen de perfil</label>
-        <input type="file" name="avatar"/>
-        <br/><br/>
-        <button class="btn" type="submit">Registrarse</button>
+        <p>contacto@tiendaelectro.com.ar</p>  
+    </div>
+<div class="formulario">  
+   <form method="post" action="/api/sessions/signup" >
+   <h3>Registrate</h3>
+    <div class="input-group">
+  <label for="name">Nombre</label>
+   <input type="text" placeholder="Ingrese su nombre" name="first_name"/>
+   <br/><br/>
+     <label for="phone">Apellido</label>
+   <input type="text" placeholder="Ingrese su apellido" name="last_name"/>
+   <br/><br/>   
+    <label for="email">Email</label>
+   <input type="email" placeholder="Ingrese su correo" name="email"/>
+   <br/><br/>
+       <label for="message">Password</label>
+   <input type="password" placeholder="Ingrese su contraseña" name="password"/>
+   <br/><br/> 
+   <button  class="btn" type="submit">Registrate</button>
 
-        <br><br>
-        <a class="btn" href="/forgot-password">Olvide mi contraseña</a>
-        <br><br>
-        <a class="btn" href="/api/sessions/loginGithub">
-          <button class="btn">Iniciar sesion con GITHUB </button>
-        </a>
-      </div>
-    </form>
-  </div>
-  
+<br><br>
+<a   class="btn" href="/forgot-password">Olvide mi contraseña</a>
+<br><br>
+<a    class="btn" href="/api/sessions/loginGithub">
+   <button class="btn">Iniciar sesion con GITHUB </button>
+</a> 
+ </div> 
+</form> 
+
+</div>
+
+
+
+
+{{!-- ****************************************
+<h1>Formulario de registro</h1>
+<p style="color:red">{{error}}</p>
+
+<form method="post" action="/api/sessions/signup">
+    <input type="text" placeholder="nombre" name="first_name"/>
+    <br/><br/>
+    <input type="email" placeholder="correo" name="email"/>
+    <br/><br/>
+    <input type="password" placeholder="contraseña" name="password"/>
+    <br/><br/>
+    <button>Registrarse</button>
+</form>
+<hr>
+<a href="/cambio-password">
+    Restaurar contraseña
+</a> --}}

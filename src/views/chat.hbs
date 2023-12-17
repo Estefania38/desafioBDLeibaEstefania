@@ -1,36 +1,30 @@
- <div id="chat-container">
-    <h4 id="nombreusuario">Bienvenido al chat</h4>
-    <div id="chat-messages">
-      
-      <div class="message sender">
-         <p id="chat"> </p>
-      </div>
-     
+<h4 id="nombreusuario">Bienvenido al chat</h4>
+<div class="chatContainer">
+  <h1 class="chat-heading text-center mt-5">Contactate con nosotros</h1>
+  <div class="card mt-3">
+    <div class="card-header">
+      Chatea aqui
     </div>
-    <form id="formulario">
-      <input type="text" name="mensaje" id="mensaje" placeholder="Type your message...">
-      <input type="submit" value="Enviar">
-    </form>
-   
+    <div class="card-body" id="chatHistory" style="height: 300px; overflow-y: auto;"></div>
+    <div class="card-footer">
+      <form id="chatForm">
+        <div class="input-group">
+          <input type="text" class="form-control" id="chatInput" autocomplete="off" placeholder="Escribe aqui" />
+          <div class="input-group-append">
+            <input type="submit" class="btn btn-primary" value="Enviar" />
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
+
+<script>
+  const username = "{{user.email}}";
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/chat.js"> 
-
-
- /*<div class="chatContainer">
-  <header>
-    <h3 class="userName"></h3>
-    <p class="typing"></p>
-  </header>
-  <main>
-    <div class="chatMessage"></div>
-  </main>
-  <footer>
-    <input type="text" placeholder="Message" id="inputMessage"/>
-    <button id="btnMessage">Enviar</button>
-  </footer>
-</div>  */
+<script src="/js/chat.js">

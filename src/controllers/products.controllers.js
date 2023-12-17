@@ -34,7 +34,6 @@ export class ProductsController{
           const product = req.body;
           console.log(req.user);
           product.owner = req.user._id;
-          product.thumbnail = req.file.filename;
           const productCreated = await ProductsService.createdProduct(product);
           return res.json({ status: "success", message: "Producto creado", data:productCreated });
         } catch (error) {
