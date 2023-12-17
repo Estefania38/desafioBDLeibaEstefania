@@ -10,8 +10,10 @@
     "start": "node src/app.js",
     "update-products": "node src/scripts/mongo.scripts.js",
     "sass-watch": "sass --no-source-map --watch src/sass/styles.scss src/public/css/styles.css",
-    "dev": "npm-run-all --parallel sass-watch start"
+    "dev": "nodemon src/app.js"
+    
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
