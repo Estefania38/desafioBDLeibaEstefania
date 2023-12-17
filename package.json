@@ -7,7 +7,7 @@
   "scripts": {
     "test2": "echo \"Error: no test specified\" && exit 1",
     "test": " mocha test/supertest.test.js --exit",
-    "start": "nodemon src/app.js",
+    "start": "node src/app.js",
     "update-products": "node src/scripts/mongo.scripts.js",
     "sass-watch": "sass --no-source-map --watch src/sass/styles.scss src/public/css/styles.css",
     "dev": "npm-run-all --parallel sass-watch start"
